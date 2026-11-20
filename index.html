@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="description" content="项目进度甘特图">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#0B2545">
+  <title>项目进度</title>
+  <link rel="icon" href="assets/logo.jpg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#board">跳到进度表</a>
+
+  <header class="app-header" id="appHeader">
+    <div class="brand" id="brand">
+      <span class="brand-logo" id="brandLogoWrap">
+        <img id="brandLogo" src="assets/logo.jpg" alt="项目标识">
+      </span>
+      <h1 id="brandTitle">项目进度</h1>
+    </div>
+    <div class="header-side">
+      <span class="updated" id="updatedAt"></span>
+      <button type="button" class="admin-hint" id="adminHint" hidden>管理</button>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <section class="kpi-grid" id="kpiGrid" aria-label="总体指标"></section>
+
+    <section class="toolbar card" id="toolbar" aria-label="筛选与视图">
+      <div class="toolbar-left">
+        <label class="search">
+          <span class="search-icon" aria-hidden="true"></span>
+          <input id="searchInput" type="search" placeholder="搜索任务、部门、阶段、备注" autocomplete="off" aria-label="搜索">
+          <button type="button" class="search-clear" id="searchClear" hidden aria-label="清除搜索">×</button>
+        </label>
+        <div class="filter-buttons" id="filterButtons"></div>
+      </div>
+      <div class="toolbar-right" id="toolbarRight"></div>
+    </section>
+
+    <section class="admin-bar" id="adminBar" hidden aria-label="管理操作"></section>
+
+    <section class="board" id="board" tabindex="-1"></section>
+
+    <footer class="app-footer">
+      <span id="footerNote">静态页面 · 数据由管理员发布后更新</span>
+    </footer>
+  </main>
+
+  <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+  <aside class="drawer" id="taskDrawer" hidden aria-label="任务详情"></aside>
+
+  <div class="modal-backdrop" id="modalBackdrop" hidden></div>
+  <div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle"></div>
+
+  <div class="tooltip" id="tooltip" hidden></div>
+  <div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+
+  <noscript>
+    <div class="noscript">此页面需要启用 JavaScript 才能显示进度甘特图。</div>
+  </noscript>
+
+  <script src="config.js"></script>
+  <script src="data.js"></script>
+  <script src="shared/parse.js"></script>
+  <script src="js/util.js"></script>
+  <script src="js/gantt.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/publish.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

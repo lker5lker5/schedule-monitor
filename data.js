@@ -315,7 +315,7 @@ window.PROJECT_DATA = {
       "seq": 20,
       "name": "风险智防野外实证试验场改造与联调",
       "departments": [
-        "地灾所"
+        "地灾防治所"
       ],
       "owners": [],
       "start": "2027-01-08",
@@ -373,7 +373,7 @@ window.PROJECT_DATA = {
       "name": "风险智防高质量数据集建设与数据服务接口建设",
       "departments": [
         "院数字化工作专班",
-        "地灾所"
+        "地灾防治所"
       ],
       "owners": [],
       "start": "2026-11-06",
@@ -430,7 +430,7 @@ window.PROJECT_DATA = {
       "seq": 28,
       "name": "风险智防智能体建设与测试",
       "departments": [
-        "地灾所"
+        "地灾防治所"
       ],
       "owners": [],
       "start": "2026-11-06",

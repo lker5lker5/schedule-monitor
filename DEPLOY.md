@@ -68,6 +68,17 @@ https://<用户名>.github.io/customSchedule/
 
 令牌只保存在**当前浏览器 localStorage**，不会写入 `data.js`，不会进入仓库。更换电脑或清缓存后需要重新填写。
 
+### 4.1 标题 / 部门表 / 责任人表
+
+`title.js`、`departments.js` 和 `persons.js` 是**静态文件**，不在"一键发布 data.js"的范围内：
+
+- 修改项目标题：编辑 `title.js` 的 `window.PROJECT_TITLE` → Commit；页面按时间戳加载该文件，刷新即可，通常不受缓存影响；
+- 新增/改名/删除部门：编辑 `departments.js` → Commit；
+- 新增/改名/删除责任人：编辑 `persons.js` → Commit；
+- 任务里可以填写表外部门/姓名，表外值会保存在 `data.js` 里，一键发布会带上；
+- 要让表外值成为正式候选，需再手动补进 `departments.js` / `persons.js`；
+- 设置 → 部门表/责任人表可以复制列表或表外值为 JS 数组，方便粘贴。
+
 ### 5. 常见问题
 
 - **页面没更新**：GitHub Pages 有短暂 CDN 缓存，等 1–2 分钟；强制刷新（Cmd/Ctrl+Shift+R）。
@@ -87,7 +98,10 @@ https://<用户名>.github.io/customSchedule/
 ```
 /var/www/customSchedule/
 ├─ index.html
+├─ title.js
 ├─ data.js
+├─ departments.js
+├─ persons.js
 ├─ config.js
 ├─ ...
 ```
@@ -184,12 +198,14 @@ window.PROJECT_DATA = {
 ```
 
 - 不要手动编辑 `data.js` 里的任务，除非你清楚格式；优先用管理端或 Excel 导入。
+- `data.js` 里的 `meta.title` 只是元数据；页面显示标题以 `title.js` 为准。
 - 备份：每次下载的文件可以按日期归档，形成简单历史。
 
 ## 安全检查清单
 
 - [ ] 已修改 `config.js` 里的初始口令哈希
 - [ ] `data.js` 中没有 GitHub token、密码等敏感信息
+- [ ] `departments.js` / `persons.js` 已按当前项目维护并推送
 - [ ] 仓库为 public 时，确认内容允许公网可见
 - [ ] 已确认 `robots.txt` 与页面 `noindex` 存在
 - [ ] GitHub token 仅授予单仓库 `Contents: Read and write`，设置了有效期

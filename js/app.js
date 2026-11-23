@@ -49,10 +49,12 @@
     try {
       normalized = CS.P.normalizeProject(window.PROJECT_DATA, {
         projectId: CS.CFG.projectId,
-        title: CS.CFG.title,
+        title: CS.TITLE,
         logo: CS.CFG.logo,
         today: new Date()
       });
+      // title.js 是标题的唯一来源，忽略 data.js 里可能残留的旧标题。
+      normalized.project.meta.title = CS.TITLE;
     } catch (e) {
       fatal('data.js 格式错误：' + (e && e.message ? e.message : e));
       return;

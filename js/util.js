@@ -7,6 +7,9 @@
   var CS = window.CS = window.CS || {};
 
   CS.CFG = window.APP_CONFIG || {};
+  CS.TITLE = (typeof window.PROJECT_TITLE === 'string' && window.PROJECT_TITLE.trim())
+    ? window.PROJECT_TITLE.trim()
+    : (CS.CFG.title || '项目进度');
   CS.P = window.ScheduleParser;
   CS.XLSX = window.XLSX;
   CS.DAY = 86400000;
@@ -68,7 +71,7 @@
     viewExplicit: false,
     zoom: 'week',
     group: 'phase',
-    filters: { depts: [], statuses: [], q: '' },
+    filters: { depts: [], statuses: [], owners: [], q: '' },
     collapsed: new Set(),
     selectedId: null,
     openFilter: null,
@@ -119,7 +122,9 @@
           Object.keys(val).forEach(function (k) { node.setAttribute(k, val[k]); });
         } else if (key === 'value') {
           node.value = val;
-        } else if (key === 'checked' || key === 'selected' || key === 'disabled' || key === 'readonly' || key === 'required' || key === 'hidden' || key === 'multiple') {
+        } else if (key === 'readonly') {
+          node.readOnly = !!val;
+        } else if (key === 'checked' || key === 'selected' || key === 'disabled' || key === 'required' || key === 'hidden' || key === 'multiple') {
           node[key] = !!val;
         } else if (key.indexOf('on') === 0 && typeof val === 'function') {
           node.addEventListener(key.slice(2).toLowerCase(), val);
@@ -419,6 +424,9 @@
     if (f.depts.length && !task.departments.some(function (d) { return f.depts.indexOf(d) !== -1; })) {
       return false;
     }
+    if (f.owners.length && !(task.owners || []).some(function (o) { return f.owners.indexOf(o) !== -1; })) {
+      return false;
+    }
     if (f.statuses.length) {
       var today = CS.todayISO();
       var ok = f.statuses.some(function (key) { return CS.matchesStatus(task, key, today); });
@@ -426,7 +434,7 @@
     }
     var q = f.q.trim().toLowerCase();
     if (q) {
-      var hay = [task.name, task.phase, task.note].concat(task.departments).join(' ').toLowerCase();
+      var hay = [task.name, task.phase, task.note].concat(task.departments || [], task.owners || []).join(' ').toLowerCase();
       if (hay.indexOf(q) === -1) return false;
     }
     return true;
@@ -445,6 +453,94 @@
       });
     });
     return out;
+  };
+
+  CS.allPersons = function () {
+    var seen = Object.create(null);
+    var out = [];
+    CS.state.data.tasks.forEach(function (t) {
+      (t.owners || []).forEach(function (o) {
+        if (!seen[o]) { seen[o] = true; out.push(o); }
+      });
+    });
+    return out;
+  };
+
+  CS.departmentUsage = function () {
+    var map = Object.create(null);
+    CS.state.data.tasks.forEach(function (t) {
+      (t.departments || []).forEach(function (d) { map[d] = (map[d] || 0) + 1; });
+    });
+    return map;
+  };
+
+  CS.personUsage = function () {
+    var map = Object.create(null);
+    CS.state.data.tasks.forEach(function (t) {
+      (t.owners || []).forEach(function (o) { map[o] = (map[o] || 0) + 1; });
+    });
+    return map;
+  };
+
+  function normalizeNameList(raw) {
+    if (!Array.isArray(raw)) return [];
+    var seen = Object.create(null);
+    var out = [];
+    raw.forEach(function (v) {
+      var name = String(v == null ? '' : v).trim();
+      if (!name || seen[name]) return;
+      seen[name] = true;
+      out.push(name);
+    });
+    return out;
+  }
+
+  CS.departmentsTable = function () {
+    return normalizeNameList(window.DEPARTMENTS);
+  };
+
+  CS.personsTable = function () {
+    return normalizeNameList(window.PERSONS);
+  };
+
+  function buildOptions(table, usage, used, extra) {
+    var out = [];
+    var seen = Object.create(null);
+    table.forEach(function (name) {
+      if (seen[name]) return;
+      seen[name] = true;
+      out.push({ value: name, count: usage[name] || 0, inTable: true });
+    });
+    used.forEach(function (name) {
+      if (seen[name]) return;
+      seen[name] = true;
+      out.push({ value: name, count: usage[name] || 0, inTable: false });
+    });
+    (extra || []).forEach(function (name) {
+      if (seen[name]) return;
+      seen[name] = true;
+      out.push({ value: name, count: usage[name] || 0, inTable: false });
+    });
+    return out;
+  }
+
+  CS.departmentOptions = function (extra) {
+    return buildOptions(CS.departmentsTable(), CS.departmentUsage(), CS.allDepartments(), extra);
+  };
+
+  CS.personOptions = function (extra) {
+    return buildOptions(CS.personsTable(), CS.personUsage(), CS.allPersons(), extra);
+  };
+
+  CS.nextSeq = function (tasks) {
+    var used = Object.create(null);
+    (tasks || []).forEach(function (t) {
+      var n = Math.round(Number(t.seq));
+      if (isFinite(n) && n > 0) used[n] = true;
+    });
+    var n = 1;
+    while (used[n]) n++;
+    return n;
   };
 
   CS.phaseOrder = function () {
@@ -534,7 +630,7 @@
 
   CS.filtersActive = function () {
     var f = CS.state.filters;
-    return !!(f.depts.length || f.statuses.length || f.q.trim());
+    return !!(f.depts.length || f.statuses.length || f.owners.length || f.q.trim());
   };
 
   /* ---------- Storage ---------- */
@@ -647,10 +743,11 @@
   CS.normalizeCurrent = function () {
     var res = CS.P.normalizeProject(CS.state.data, {
       projectId: CS.CFG.projectId,
-      title: CS.CFG.title,
+      title: CS.TITLE,
       logo: CS.CFG.logo,
       today: new Date()
     });
+    res.project.meta.title = CS.TITLE;
     CS.state.data = res.project;
     if (res.warnings.length) console.warn('[customSchedule] data warnings:', res.warnings);
     return res.warnings;
@@ -708,6 +805,7 @@
 
   CS.closeModal = function () {
     var refs = CS.refs;
+    if (CS.closeAllPickers) CS.closeAllPickers();
     if (!refs.modal || refs.modal.hidden) return;
     refs.modal.classList.remove('open');
     if (refs.modalBackdrop) refs.modalBackdrop.classList.remove('open');

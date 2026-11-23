@@ -88,6 +88,26 @@
       result.appendChild(h('div', { style: { fontSize: '11.5px', color: 'var(--muted)' } },
         '来源：' + filename + ' · 导入后覆盖当前 ' + state.data.tasks.length + ' 条任务（项目标题与发布信息不变）。'));
 
+      var deptTable = CS.departmentsTable();
+      var personTable = CS.personsTable();
+      var extDept = Object.create(null);
+      var extPerson = Object.create(null);
+      parsed.tasks.forEach(function (t) {
+        (t.departments || []).forEach(function (d) { if (deptTable.indexOf(d) === -1) extDept[d] = true; });
+        (t.owners || []).forEach(function (o) { if (personTable.indexOf(o) === -1) extPerson[o] = true; });
+      });
+      var extDeptList = Object.keys(extDept);
+      var extPersonList = Object.keys(extPerson);
+      if (extDeptList.length || extPersonList.length) {
+        var externalNotes = [];
+        if (extDeptList.length) externalNotes.push('表外部门：' + extDeptList.join('、'));
+        if (extPersonList.length) externalNotes.push('表外责任人：' + extPersonList.join('、'));
+        result.appendChild(h('div', {
+          class: 'warning-item',
+          style: { border: '1px solid #FDE68A', borderRadius: '8px', marginTop: '8px' }
+        }, externalNotes.join('；') + '。将保留在任务中并标黄，不会自动写入 departments.js / persons.js。'));
+      }
+
       if (parsed.warnings.length) {
         var warnings = h('div', { class: 'warnings' });
         parsed.warnings.slice(0, 50).forEach(function (w) {
@@ -106,7 +126,7 @@
       var table = h('table', { class: 'preview-table' });
       var thead = h('thead');
       var tr = h('tr');
-      ['序号', '工作任务', '责任部门', '启动时间', '完成时间', '进度', '阶段', '备注'].forEach(function (t) {
+      ['序号', '工作任务', '责任部门', '责任人', '启动时间', '完成时间', '进度', '阶段', '备注'].forEach(function (t) {
         tr.appendChild(h('th', {}, t));
       });
       thead.appendChild(tr);
@@ -114,7 +134,7 @@
       var tbody = h('tbody');
       parsed.tasks.slice(0, 8).forEach(function (t) {
         var row = h('tr');
-        [t.seq, t.name, (t.departments || []).join('、'), t.start, t.end, t.progress + '%', t.phase, t.note || ''].forEach(function (v) {
+        [t.seq, t.name, (t.departments || []).join('、'), (t.owners || []).join('、'), t.start, t.end, t.progress + '%', t.phase, t.note || ''].forEach(function (v) {
           row.appendChild(h('td', { title: String(v) }, String(v)));
         });
         tbody.appendChild(row);
@@ -140,6 +160,7 @@
           seq: t.seq,
           name: t.name,
           departments: t.departments || [],
+          owners: t.owners || [],
           start: t.start,
           end: t.end,
           progress: t.progress,
@@ -170,7 +191,7 @@
 
     CS.openModal({
       title: '导入 Excel',
-      sub: '标准列：序号、工作任务、责任部门、启动时间、完成时间、进度（%）、阶段、备注。备注列可缺失。',
+      sub: '标准列：序号、工作任务、责任部门、责任人、启动时间、完成时间、进度（%）、阶段、备注。责任人、备注列可缺失。',
       wide: true,
       body: h('div', {}, drop, result),
       foot: [
@@ -207,6 +228,7 @@
       ['序号', '显示序号；可重复，建议保持唯一。'],
       ['工作任务', '必填。'],
       ['责任部门', '多个部门请用顿号（、）、逗号或分号分隔。'],
+      ['责任人', '多个责任人请用顿号（、）、逗号或分号分隔；可留空。'],
       ['启动时间', '格式：YYYY-MM-DD，也支持 2026/11/6、2026年11月6日。'],
       ['完成时间', '格式同上；不能早于启动时间。'],
       ['进度（%）', '0 = 未开始；1–99 = 进行中（估算完成度）；100 = 已完成。'],
@@ -230,6 +252,7 @@
     }
 
     var data = CS.clone(state.data);
+    data.meta.title = CS.TITLE;
     data.meta.updatedAt = new Date().toISOString();
     data.meta.version = (Number(data.meta.version) || 0) + 1;
     data.meta.publishNote = note;

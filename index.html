@@ -64,14 +64,54 @@
     <div class="noscript">此页面需要启用 JavaScript 才能显示进度甘特图。</div>
   </noscript>
 
+  <script>
+    /*
+     * title.js 加 cache-busting，避免推送新标题后被 GitHub Pages / 浏览器缓存。
+     * file:// 下不加查询参数。
+     */
+    document.write('<script src="title.js' +
+      (window.location.protocol === 'file:' ? '' : '?v=' + Date.now()) +
+      '"><\/script>');
+  </script>
   <script src="config.js"></script>
-  <script src="data.js"></script>
+  <script src="departments.js"></script>
+  <script src="persons.js"></script>
   <script src="shared/parse.js"></script>
   <script src="js/util.js"></script>
   <script src="js/gantt.js"></script>
   <script src="js/render.js"></script>
+  <script src="js/picker.js"></script>
   <script src="js/admin.js"></script>
   <script src="js/publish.js"></script>
-  <script src="js/app.js"></script>
+  <script>
+    /*
+     * data.js is loaded with a cache-busting query so a newly published
+     * GitHub Pages data file is visible on the next page load.
+     * file:// has no query (some browsers treat it as part of the path).
+     */
+    (function () {
+      var isFile = window.location.protocol === 'file:';
+      var dataScript = document.createElement('script');
+      dataScript.src = 'data.js' + (isFile ? '' : '?v=' + Date.now());
+      dataScript.onload = loadApp;
+      dataScript.onerror = function () {
+        if (isFile) { loadApp(); return; }
+        var retry = document.createElement('script');
+        retry.src = 'data.js';
+        retry.onload = loadApp;
+        retry.onerror = loadApp;
+        document.body.appendChild(retry);
+      };
+      document.body.appendChild(dataScript);
+
+      function loadApp() {
+        if (loadApp.done) return;
+        loadApp.done = true;
+        var appScript = document.createElement('script');
+        appScript.src = 'js/app.js';
+        document.body.appendChild(appScript);
+      }
+    })();
+  </script>
 </body>
 </html>

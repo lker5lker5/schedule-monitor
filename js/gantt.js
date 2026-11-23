@@ -10,8 +10,9 @@
 
   function leftWidthPx() {
     if (window.matchMedia('(max-width: 767px)').matches) return 42 + 210;
-    if (window.matchMedia('(max-width: 1199px)').matches) return 52 + 280 + 94;
-    return 52 + 300 + 162 + 94;
+    if (window.matchMedia('(max-width: 899px)').matches) return 52 + 280 + 94;
+    if (window.matchMedia('(max-width: 1199px)').matches) return 52 + 280 + 120 + 94;
+    return 52 + 300 + 162 + 120 + 94;
   }
 
   CS.computeRange = function () {
@@ -165,6 +166,7 @@
     head.appendChild(h('div', { class: 'gh-cell gh-seq', title: '序号' }, '序号'));
     head.appendChild(h('div', { class: 'gh-cell gh-name' }, '工作任务'));
     head.appendChild(h('div', { class: 'gh-cell gh-dept' }, '责任部门'));
+    head.appendChild(h('div', { class: 'gh-cell gh-owner' }, '责任人'));
     head.appendChild(h('div', { class: 'gh-cell gh-prog' }, '进度'));
     head.appendChild(CS.buildTimelineHeader(range, px));
     return head;
@@ -309,6 +311,11 @@
       class: 'gc g-dept',
       title: (task.departments || []).join('、')
     }, (task.departments || []).join('、') || '—'));
+
+    row.appendChild(h('div', {
+      class: 'gc g-owner',
+      title: (task.owners || []).join('、')
+    }, (task.owners || []).join('、') || '—'));
 
     var prog = h('div', { class: 'gc g-prog' },
       h('div', { class: 'g-prog-top' },
@@ -543,6 +550,19 @@
     if (list.length > 3) depts.appendChild(h('span', { class: 'chip' }, '+' + (list.length - 3)));
     if (!list.length) depts.appendChild(h('span', { class: 'chip muted' }, '未填写部门'));
     card.appendChild(depts);
+
+    var owners = h('div', { class: 'card-owners' });
+    var ownerList = task.owners || [];
+    owners.appendChild(h('span', { class: 'card-owner-label' }, '责任人'));
+    if (ownerList.length) {
+      ownerList.slice(0, 3).forEach(function (o) {
+        owners.appendChild(h('span', { class: 'chip owner-chip', title: o }, o));
+      });
+      if (ownerList.length > 3) owners.appendChild(h('span', { class: 'chip' }, '+' + (ownerList.length - 3)));
+    } else {
+      owners.appendChild(h('span', { class: 'chip muted' }, '未填写'));
+    }
+    card.appendChild(owners);
 
     card.appendChild(h('div', { class: 'card-dates' },
       h('span', {}, task.start),

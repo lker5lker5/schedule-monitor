@@ -14,12 +14,12 @@
     CS.renderToolbar();
     if (CS.renderAdminBar) CS.renderAdminBar();
     CS.renderBoard();
-    document.title = state.data.meta.title || CS.CFG.title || '项目进度';
+    document.title = CS.TITLE;
   };
 
   CS.renderHeader = function () {
     var meta = state.data.meta;
-    CS.refs.brandTitle.textContent = meta.title || CS.CFG.title || '项目进度';
+    CS.refs.brandTitle.textContent = CS.TITLE;
     CS.refs.brandTitle.title = CS.refs.brandTitle.textContent;
 
     var logo = meta.logo || CS.CFG.logo || '';
@@ -184,7 +184,20 @@
     var box = CS.refs.filterButtons;
     CS.clear(box);
 
-    box.appendChild(CS.filterWrap('dept', '责任部门', CS.allDepartments(), state.filters.depts, '暂无部门数据'));
+    var deptUsage = CS.departmentUsage();
+    var deptTable = CS.departmentsTable();
+    var deptOptions = CS.allDepartments().map(function (d) {
+      return { value: d, count: deptUsage[d] || 0, inTable: deptTable.indexOf(d) !== -1 };
+    });
+
+    var personUsage = CS.personUsage();
+    var personTable = CS.personsTable();
+    var personOptions = CS.allPersons().map(function (o) {
+      return { value: o, count: personUsage[o] || 0, inTable: personTable.indexOf(o) !== -1 };
+    });
+
+    box.appendChild(CS.filterWrap('dept', '责任部门', deptOptions, state.filters.depts, '暂无部门数据'));
+    box.appendChild(CS.filterWrap('owner', '责任人', personOptions, state.filters.owners, '暂无责任人数据'));
     box.appendChild(CS.filterWrap('status', '状态', CS.FILTER_STATUS.map(function (s) { return s; }), state.filters.statuses, '', true));
 
     box.appendChild(h('button', {
@@ -226,43 +239,86 @@
 
     if (state.openFilter === kind) {
       var pop = h('div', { class: 'popover', onclick: function (e) { e.stopPropagation(); } });
-      pop.appendChild(h('div', { class: 'popover-title' }, kind === 'dept' ? '选择责任部门' : '选择状态'));
+      pop.appendChild(h('div', { class: 'popover-title' },
+        kind === 'dept' ? '选择责任部门' : (kind === 'owner' ? '选择责任人' : '选择状态')
+      ));
+
+      var search = null;
+      if (!isStatus) {
+        search = h('input', {
+          class: 'popover-search',
+          type: 'search',
+          placeholder: kind === 'dept' ? '搜索部门' : '搜索责任人',
+          'aria-label': kind === 'dept' ? '搜索部门' : '搜索责任人'
+        });
+        pop.appendChild(search);
+      }
+
+      var rows = [];
+      var noMatch = h('div', { class: 'popover-row muted', hidden: true }, '没有匹配项');
+      pop.appendChild(noMatch);
 
       if (!options.length && emptyText) {
         pop.appendChild(h('div', { class: 'popover-row muted' }, emptyText));
       }
 
       options.forEach(function (opt) {
-        var key = isStatus ? opt.key : opt;
-        var text = isStatus ? opt.label : opt;
+        var key = isStatus ? opt.key : opt.value;
+        var text = isStatus ? opt.label : opt.value;
         var cb = h('input', {
           type: 'checkbox',
           checked: selected.indexOf(key) !== -1,
           onchange: function (e) {
-            var arr = state.filters[kind === 'dept' ? 'depts' : 'statuses'];
+            var arr = state.filters[kind === 'dept' ? 'depts' : (kind === 'owner' ? 'owners' : 'statuses')];
             var idx = arr.indexOf(key);
             if (e.target.checked && idx === -1) arr.push(key);
             if (!e.target.checked && idx !== -1) arr.splice(idx, 1);
             CS.afterFilterChange();
           }
         });
-        pop.appendChild(h('label', { class: 'popover-row' }, cb, h('span', {}, text)));
+        var row = h('label', { class: 'popover-row', dataset: { search: text.toLowerCase() } },
+          cb,
+          h('span', { class: 'popover-name', title: text }, text),
+          !isStatus && opt.count ? h('span', { class: 'popover-count' }, String(opt.count)) : null,
+          !isStatus && opt.inTable === false ? h('span', { class: 'popover-external' }, '表外') : null
+        );
+        rows.push({ node: row, text: text.toLowerCase() });
+        pop.appendChild(row);
       });
+
+      function applySearch() {
+        var q = search ? search.value.trim().toLowerCase() : '';
+        var visible = 0;
+        rows.forEach(function (row) {
+          var show = !q || row.text.indexOf(q) !== -1;
+          row.node.hidden = !show;
+          if (show) visible++;
+        });
+        noMatch.hidden = !q || visible > 0 || !rows.length;
+      }
+      if (search) {
+        search.addEventListener('input', applySearch);
+      }
 
       pop.appendChild(h('div', { class: 'popover-actions' },
         h('button', {
           class: 'btn ghost small', type: 'button',
           onclick: function () {
-            var arr = kind === 'dept' ? state.filters.depts : state.filters.statuses;
-            arr.length = 0;
-            options.forEach(function (opt) { arr.push(isStatus ? opt.key : opt); });
+            var arr = state.filters[kind === 'dept' ? 'depts' : (kind === 'owner' ? 'owners' : 'statuses')];
+            var q = search ? search.value.trim().toLowerCase() : '';
+            options.forEach(function (opt) {
+              var key = isStatus ? opt.key : opt.value;
+              var text = isStatus ? opt.label : opt.value;
+              if (q && text.toLowerCase().indexOf(q) === -1) return;
+              if (arr.indexOf(key) === -1) arr.push(key);
+            });
             CS.afterFilterChange(true);
           }
         }, '全选'),
         h('button', {
           class: 'btn ghost small', type: 'button',
           onclick: function () {
-            var arr = kind === 'dept' ? state.filters.depts : state.filters.statuses;
+            var arr = state.filters[kind === 'dept' ? 'depts' : (kind === 'owner' ? 'owners' : 'statuses')];
             arr.length = 0;
             CS.afterFilterChange(true);
           }
@@ -302,6 +358,7 @@
     }
 
     setCount(box.querySelector('[data-filter="dept"]'), state.filters.depts.length);
+    setCount(box.querySelector('[data-filter="owner"]'), state.filters.owners.length);
     setCount(box.querySelector('[data-filter="status"]'), state.filters.statuses.length);
 
     var clear = box.querySelector('#clearFilters');
@@ -316,6 +373,7 @@
 
   CS.clearFilters = function () {
     state.filters.depts.length = 0;
+    state.filters.owners.length = 0;
     state.filters.statuses.length = 0;
     state.filters.q = '';
     state.openFilter = null;
@@ -422,8 +480,13 @@
     (task.departments || []).forEach(function (d) { depts.appendChild(h('span', { class: 'chip' }, d)); });
     if (!task.departments || !task.departments.length) depts.textContent = '未填写';
 
+    var owners = h('div', { class: 'detail-value' });
+    (task.owners || []).forEach(function (o) { owners.appendChild(h('span', { class: 'chip owner-chip' }, o)); });
+    if (!task.owners || !task.owners.length) owners.textContent = '未填写';
+
     var grid = h('div', { class: 'detail-grid' },
       detailItem('责任部门', depts, true),
+      detailItem('责任人', owners, true),
       detailItem('阶段', task.phase),
       detailItem('序号', String(task.seq)),
       detailItem('启动时间', task.start),
@@ -542,6 +605,8 @@
 
       if (state.filters.depts.length) params.set('dept', state.filters.depts.join(','));
       else params.delete('dept');
+      if (state.filters.owners.length) params.set('owner', state.filters.owners.join(','));
+      else params.delete('owner');
       if (state.filters.statuses.length) params.set('status', state.filters.statuses.join(','));
       else params.delete('status');
       if (state.filters.q.trim()) params.set('q', state.filters.q.trim());
@@ -578,6 +643,12 @@
     if (dept) {
       var known = CS.allDepartments();
       state.filters.depts = dept.split(',').filter(function (d) { return known.indexOf(d) !== -1; });
+    }
+
+    var owner = params.get('owner');
+    if (owner) {
+      var knownOwners = CS.allPersons();
+      state.filters.owners = owner.split(',').filter(function (o) { return knownOwners.indexOf(o) !== -1; });
     }
 
     var status = params.get('status');

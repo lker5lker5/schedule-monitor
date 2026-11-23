@@ -7,7 +7,8 @@
  */
 window.APP_CONFIG = {
   projectId: 'deep-earth-ai-pilot',
-  title: '深地科学与人工智能中试基地建设任务分解表',
+  // 兼容旧配置：实际标题以 title.js 的 window.PROJECT_TITLE 为准
+  title: window.PROJECT_TITLE || '项目进度',
   logo: 'assets/logo.jpg',
 
   admin: {

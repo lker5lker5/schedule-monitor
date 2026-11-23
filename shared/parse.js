@@ -17,6 +17,7 @@
     seq: ['序号', '编号', 'no', 'no.', '#'],
     name: ['工作任务', '任务名称', '工作内容', '任务'],
     dept: ['责任部门', '责任单位', '部门', '牵头部门', '责任处室'],
+    owner: ['责任人', '负责人', '任务负责人', '责任人姓名', '负责人姓名'],
     start: ['启动时间', '开始时间', '计划开始', '起始时间', '开始日期', '计划开始时间'],
     end: ['完成时间', '结束时间', '计划完成', '完成日期', '截止时间', '计划完成时间'],
     progress: ['进度(%)', '进度(％)', '进度', '进度情况', '完成度', '完成比例', '完成进度'],
@@ -214,7 +215,7 @@
       warnings.push({
         row: 1,
         level: 'warn',
-        message: '未识别到标准表头，已按 A–H 列位置解析。请确认列顺序：序号、工作任务、责任部门、启动时间、完成时间、进度（%）、阶段、备注。'
+        message: '未识别到标准表头，已按旧版 A–H 列位置解析。新模板请保留表头；标准列顺序为：序号、工作任务、责任部门、责任人、启动时间、完成时间、进度（%）、阶段、备注。'
       });
     }
 
@@ -268,6 +269,7 @@
       if (seq !== null) usedSeqs[seq] = true;
 
       var dept = splitDepartments(map.dept !== undefined ? row[map.dept] : '');
+      var owners = splitDepartments(map.owner !== undefined ? row[map.owner] : '');
       var id = 't_' + excelRow;
 
       tasks.push({
@@ -275,6 +277,7 @@
         seq: seq,
         name: name,
         departments: dept,
+        owners: owners,
         start: start,
         end: end,
         progress: progressResult.value,
@@ -411,11 +414,16 @@
         ? task.departments.map(normText).filter(Boolean)
         : splitDepartments(task.departments);
 
+      var owners = Array.isArray(task.owners)
+        ? task.owners.map(normText).filter(Boolean)
+        : splitDepartments(task.owners);
+
       normalizedTasks.push({
         id: id,
         seq: Math.round(seq),
         name: name,
         departments: departments,
+        owners: owners,
         start: start,
         end: end,
         progress: progress,
@@ -467,13 +475,14 @@
 
   function projectToAoa(project) {
     var rows = [[
-      '序号', '工作任务', '责任部门', '启动时间', '完成时间', '进度（%）', '阶段', '备注'
+      '序号', '工作任务', '责任部门', '责任人', '启动时间', '完成时间', '进度（%）', '阶段', '备注'
     ]];
     (project.tasks || []).forEach(function (task) {
       rows.push([
         task.seq,
         task.name,
         (task.departments || []).join('、'),
+        (task.owners || []).join('、'),
         task.start,
         task.end,
         task.progress,
@@ -503,6 +512,7 @@
           seq: task.seq,
           name: task.name,
           departments: task.departments || [],
+          owners: task.owners || [],
           start: task.start,
           end: task.end,
           progress: task.progress,

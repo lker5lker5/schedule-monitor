@@ -115,6 +115,7 @@ test('normalizeProject cleans and completes metadata', () => {
       },
       {
         id: 't1', seq: 2, name: '任务B', departments: '部门B、部门C',
+        owners: '张三、李四',
         start: '2026-11-06', end: '2026-11-07', progress: '50', phase: ''
       }
     ]
@@ -125,6 +126,7 @@ test('normalizeProject cleans and completes metadata', () => {
   assert.strictEqual(project.tasks[0].progress, 100);
   assert.notStrictEqual(project.tasks[0].id, project.tasks[1].id);
   assert.deepStrictEqual(project.tasks[1].departments, ['部门B', '部门C']);
+  assert.deepStrictEqual(project.tasks[1].owners, ['张三', '李四']);
   assert.strictEqual(project.tasks[1].phase, '未分类');
   assert.ok(warnings.length >= 1);
 });
@@ -144,12 +146,25 @@ test('projectToAoa round-trips core fields', () => {
     meta: { projectId: 'x', title: 'T', logo: '', updatedAt: '2026-11-20T00:00:00Z', version: 1, publishNote: '', phaseOrder: ['阶段A'] },
     tasks: [{
       id: 't1', seq: 1, name: '任务A', departments: ['部门A', '部门B'],
+      owners: ['张三', '李四'],
       start: '2026-11-06', end: '2026-11-07', progress: 30, phase: '阶段A', note: '备注'
     }]
   };
   const aoa = P.projectToAoa(project);
-  assert.deepStrictEqual(aoa[0], ['序号', '工作任务', '责任部门', '启动时间', '完成时间', '进度（%）', '阶段', '备注']);
-  assert.deepStrictEqual(aoa[1], [1, '任务A', '部门A、部门B', '2026-11-06', '2026-11-07', 30, '阶段A', '备注']);
+  assert.deepStrictEqual(aoa[0], ['序号', '工作任务', '责任部门', '责任人', '启动时间', '完成时间', '进度（%）', '阶段', '备注']);
+  assert.deepStrictEqual(aoa[1], [1, '任务A', '部门A、部门B', '张三、李四', '2026-11-06', '2026-11-07', 30, '阶段A', '备注']);
+});
+
+test('9-column parse reads multiple owners', () => {
+  const aoa = [
+    ['序号', '工作任务', '责任部门', '责任人', '启动时间', '完成时间', '进度（%）', '阶段', '备注'],
+    [1, '任务O', '科教处', '张三、李四', '2026-11-06', '2026-11-07', 30, '项目管理流程', '备注O']
+  ];
+  const result = P.parseAoa(aoa);
+  assert.strictEqual(result.tasks.length, 1);
+  assert.deepStrictEqual(result.tasks[0].owners, ['张三', '李四']);
+  assert.strictEqual(result.tasks[0].note, '备注O');
+  assert.strictEqual(result.tasks[0].departments[0], '科教处');
 });
 
 console.log('\n' + passed + ' tests passed' + (process.exitCode ? ' (with failures)' : ''));

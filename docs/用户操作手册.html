@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>深地科学与人工智能中试基地建设进度看板 · 用户操作手册（培训版）</title>
+<style>
+  :root {
+    --navy:#0B2545; --ink:#172A3A; --muted:#64748B;
+    --accent:#0F766E; --line:#E2E8F0; --bg:#F5F7FA;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+      "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    font-size: 13px; line-height: 1.75;
+  }
+  .page {
+    max-width: 880px; margin: 0 auto; background: #fff;
+    padding: 46px 56px 60px; box-shadow: 0 10px 40px rgba(15,23,42,.08);
+  }
+  .print-btn {
+    position: fixed; right: 24px; top: 20px; z-index: 10;
+    border: 0; border-radius: 999px; padding: 10px 18px;
+    background: var(--accent); color: #fff; font: 600 13px/1 inherit;
+    cursor: pointer; box-shadow: 0 4px 16px rgba(15,118,110,.28);
+  }
+  .print-btn:hover { background: #0d665f; }
+  .cover {
+    padding-bottom: 30px; border-bottom: 3px solid var(--navy);
+    margin-bottom: 34px; position: relative;
+    display: flex; flex-direction: column; min-height: 780px;
+  }
+  .cover-stats { display: flex; gap: 12px; margin-top: 28px; }
+  .cover-stats > div {
+    flex: 1; border: 1px solid var(--line); background: #F8FAFC;
+    border-radius: 10px; padding: 14px 16px;
+  }
+  .cover-stats strong { display: block; font-size: 26px; color: var(--navy); line-height: 1.2; }
+  .cover-stats span { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .cover-foot {
+    margin-top: auto; padding-top: 24px; font-size: 10.5px; color: var(--muted);
+    letter-spacing: .04em; display: flex; justify-content: space-between;
+  }
+  .cover::before {
+    content: ""; position: absolute; left: 0; top: 0; width: 160px; height: 4px;
+    background: var(--accent); border-radius: 4px;
+  }
+  .cover-top { display: flex; align-items: center; gap: 14px; margin-bottom: 26px; }
+  .cover-top img { width: 58px; height: 58px; object-fit: contain; border: 1px solid var(--line); border-radius: 10px; padding: 4px; background: #fff; }
+  .cover-top .kicker { font-size: 11px; letter-spacing: .16em; color: var(--muted); text-transform: uppercase; }
+  .cover h1 { margin: 0 0 8px; font-size: 30px; line-height: 1.3; color: var(--navy); letter-spacing: .01em; }
+  .cover h2 { margin: 0 0 24px; font-size: 18px; font-weight: 500; color: var(--accent); border: 0; padding: 0; page-break-before: avoid; }
+  .cover table { font-size: 11.5px; margin: 18px 0; }
+  .cover blockquote { margin: 20px 0 0; }
+  .content h2 {
+    margin: 40px 0 14px; padding-bottom: 8px; font-size: 21px;
+    color: var(--navy); border-bottom: 2px solid var(--line);
+    page-break-after: avoid;
+  }
+  .content h2[id="1-手册说明"],
+  .content h2[id="5-管理员日常更新"],
+  .content h2[id="7-发布更新"],
+  .content h2[id="10-培训建议讲师用"] { page-break-before: always; }
+  .content h3 { margin: 26px 0 10px; font-size: 15px; color: var(--ink); page-break-after: avoid; }
+  .content h4 { margin: 20px 0 8px; font-size: 13.5px; color: var(--ink); page-break-after: avoid; }
+  p { margin: 8px 0; }
+  ul, ol { margin: 8px 0 12px; padding-left: 24px; }
+  li { margin: 3px 0; }
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(15,118,110,.25); }
+  strong { color: var(--ink); }
+  blockquote {
+    margin: 14px 0; padding: 11px 16px; border-left: 4px solid var(--accent);
+    background: #F0FDFA; color: #115E59; border-radius: 0 8px 8px 0;
+    page-break-inside: avoid;
+  }
+  blockquote p { margin: 3px 0; }
+  table {
+    width: 100%; border-collapse: collapse; margin: 14px 0 18px;
+    font-size: 11.5px; line-height: 1.55; page-break-inside: auto;
+  }
+  th, td { border: 1px solid var(--line); padding: 7px 9px; text-align: left; vertical-align: top; }
+  th { background: #F1F5F9; color: #334155; font-weight: 600; }
+  tr { page-break-inside: avoid; }
+  img {
+    display: block; max-width: 100%; max-height: 200mm; width: auto; height: auto; margin: 16px auto 8px;
+    border: 1px solid var(--line); border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(15,23,42,.06); page-break-inside: avoid;
+  }
+  em { color: var(--muted); font-style: normal; font-size: 11.5px; display: block; text-align: center; margin: 0 0 22px; }
+  code {
+    font-family: "SFMono-Regular", Consolas, Menlo, monospace;
+    font-size: 11px; background: #F1F5F9; padding: 1px 5px; border-radius: 4px;
+    color: #334155; word-break: break-word;
+  }
+  pre { background: #0B2545; color: #E2E8F0; padding: 12px 14px; border-radius: 8px; overflow: auto; font-size: 11px; line-height: 1.6; }
+  pre code { background: transparent; color: inherit; padding: 0; }
+  hr { border: 0; border-top: 1px solid var(--line); margin: 28px 0; }
+  .content > hr { display: none; }
+  .toc-fix { }
+  @media print {
+    body { background: #fff; font-size: 11.5px; }
+    .page { max-width: none; margin: 0; padding: 0; box-shadow: none; }
+    .print-btn { display: none; }
+    .cover { page-break-after: always; border-bottom-width: 2px; min-height: 240mm; }
+    .content h2 { page-break-before: auto; }
+    .content h2[id="1-手册说明"],
+    .content h2[id="5-管理员日常更新"],
+    .content h2[id="7-发布更新"],
+    .content h2[id="10-培训建议讲师用"] { page-break-before: always; }
+    a { color: var(--ink); border-bottom: 0; }
+    img { box-shadow: none; }
+    pre { white-space: pre-wrap; }
+  }
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()">打印 / 另存为 PDF</button>
+<div class="page">
+  <section class="cover">
+    <div class="cover-top">
+      <img src="images/logo.jpg" alt="项目标识">
+      <div class="kicker">项目进度看板 · 培训资料</div>
+    </div>
+    <h1 id="深地科学与人工智能中试基地建设进度看板">深地科学与人工智能中试基地建设进度看板</h1>
+<h2 id="用户操作手册培训版">用户操作手册（培训版）</h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文档版本</td>
+<td>v1.0</td>
+</tr>
+<tr>
+<td>日期</td>
+<td>2026-11-23</td>
+</tr>
+<tr>
+<td>适用对象</td>
+<td>项目团队成员、项目管理员</td>
+</tr>
+<tr>
+<td>配套文档</td>
+<td><code>docs/PRD.md</code>、<code>README.md</code>、<code>DEPLOY.md</code></td>
+</tr>
+<tr>
+<td>看板地址</td>
+<td>________________________________</td>
+</tr>
+<tr>
+<td>界面截图</td>
+<td>以当前项目数据为例；实际数据以管理员发布为准</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>一句话理解</strong>：团队成员打开网页看进度；管理员一个人负责更新进度并&quot;发布&quot;；只有发布后，团队才能看到最新数据。</p>
+</blockquote>
+
+    <div class="cover-stats">
+      <div><strong>29</strong><span>项任务</span></div>
+      <div><strong>4</strong><span>个阶段</span></div>
+      <div><strong>13%</strong><span>整体完成率</span></div>
+      <div><strong>7</strong><span>应启动未启动</span></div>
+    </div>
+    <div class="cover-foot"><span>内部培训资料 · 请勿外传</span><span>数据截至 2026-11-21</span></div>
+  </section>
+  <section class="content">
+    <h2 id="目录">目录</h2>
+<ol>
+<li><a href="#1-%E6%89%8B%E5%86%8C%E8%AF%B4%E6%98%8E">手册说明</a></li>
+<li><a href="#2-3-%E5%88%86%E9%92%9F%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B">3 分钟快速上手</a></li>
+<li><a href="#3-%E9%A1%B5%E9%9D%A2%E6%80%BB%E8%A7%88">页面总览</a></li>
+<li><a href="#4-%E6%9F%A5%E7%9C%8B%E8%BF%9B%E5%BA%A6%E5%9B%A2%E9%98%9F%E6%88%90%E5%91%98">查看进度（团队成员）</a></li>
+<li><a href="#5-%E7%AE%A1%E7%90%86%E5%91%98%E6%97%A5%E5%B8%B8%E6%9B%B4%E6%96%B0">管理员：日常更新</a></li>
+<li><a href="#6-excel-%E5%AF%BC%E5%85%A5%E4%B8%8E%E5%AF%BC%E5%87%BA">Excel 导入与导出</a></li>
+<li><a href="#7-%E5%8F%91%E5%B8%83%E6%9B%B4%E6%96%B0">发布更新</a></li>
+<li><a href="#8-%E7%AE%A1%E7%90%86%E5%91%98%E8%AE%BE%E7%BD%AE">管理员设置</a></li>
+<li><a href="#9-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98-faq">常见问题 FAQ</a></li>
+<li><a href="#10-%E5%9F%B9%E8%AE%AD%E5%BB%BA%E8%AE%AE%E8%AE%B2%E5%B8%88%E7%94%A8">培训建议（讲师用）</a></li>
+<li><a href="#11-%E7%AE%A1%E7%90%86%E5%91%98%E6%97%A5%E5%B8%B8%E6%A3%80%E6%9F%A5%E6%B8%85%E5%8D%95">管理员日常检查清单</a></li>
+<li><a href="#12-%E9%99%84%E5%BD%95">附录</a></li>
+<li><a href="#13-v11-%E6%96%B0%E7%89%88%E6%93%8D%E4%BD%9C%E9%80%9F%E6%9F%A5">新版操作速查（v1.1 / v1.2）</a></li>
+</ol>
+<blockquote>
+<p><strong>阅读路径</strong>：团队成员重点读第 2–4 章；管理员重点读第 5–8、11 章；培训讲师额外读第 10 章。</p>
+</blockquote>
+<blockquote>
+<p><strong>v1.1 更新（2026-11-23）</strong>：新增责任人多选、序号自动/只读、部门/责任人候选表、重新编号、责任人筛选、Excel 9 列。旧的&quot;8 列 / 手动序号 / 纯文本部门&quot;描述以第 13 章为准。</p>
+<p><strong>v1.2 更新（2026-11-23）</strong>：项目标题抽到根目录 <code>title.js</code>，管理设置中的标题改为只读。</p>
+</blockquote>
+<hr>
+<h2 id="1-手册说明">1. 手册说明</h2>
+<h3 id="11-目的">1.1 目的</h3>
+<p>统一团队查看进度、更新进度、发布数据的方式，避免：</p>
+<ul>
+<li>每个人手里的 Excel 版本不一致；</li>
+<li>管理员改了进度，但团队看不到；</li>
+<li>不知道&quot;逾期&quot;&quot;应启动未启动&quot;是怎么判定的；</li>
+<li>误操作覆盖数据。</li>
+</ul>
+<h3 id="12-两种角色">1.2 两种角色</h3>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>能做什么</th>
+<th>是否需要登录</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>团队成员</td>
+<td>查看整体进度、筛选部门/状态、查看任务详情、缩放、打印</td>
+<td>不需要</td>
+</tr>
+<tr>
+<td>项目管理员</td>
+<td>团队成员的全部权限 + 修改进度、增删任务、调整阶段、导入/导出 Excel、发布</td>
+<td>需要</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>系统只设置<strong>一个管理员口令</strong>，不区分多个账号。管理员口令由项目负责人单独告知，不要发到群里。</p>
+</blockquote>
+<h3 id="13-使用前提">1.3 使用前提</h3>
+<ul>
+<li>电脑或手机浏览器：最新 Chrome、Edge、Safari、Firefox；不支持 IE。</li>
+<li>打开项目负责人提供的看板地址；建议收藏到浏览器书签。</li>
+<li>手机端可以查看和做简单编辑；<strong>发布更新建议在电脑上完成</strong>。</li>
+</ul>
+<hr>
+<h2 id="2-3-分钟快速上手">2. 3 分钟快速上手</h2>
+<h3 id="21-团队成员只看不改">2.1 团队成员：只看不改</h3>
+<ol>
+<li>打开看板地址。</li>
+<li>先看顶部 4 个指标：整体完成率、任务状态、风险提示、计划周期。</li>
+<li>在工具栏按<strong>责任部门</strong>或<strong>状态</strong>筛选，或直接搜索任务名。</li>
+<li>点击任意任务行/卡片，查看起止时间、责任部门、进度和备注。</li>
+<li>用&quot;日 / 周 / 月&quot;切换时间尺度；默认&quot;周&quot;最适合日常查看。</li>
+</ol>
+<h3 id="22-管理员改一条任务的进度">2.2 管理员：改一条任务的进度</h3>
+<ol>
+<li>在网址后加 <code>?admin=1</code>，点右上角&quot;管理&quot;；或连续点击页头 logo/标题 5 次。</li>
+<li>输入管理员口令。</li>
+<li>点击任务 → &quot;编辑任务&quot; → 调整&quot;进度（%）&quot; → &quot;保存&quot;。</li>
+<li>点顶部&quot;发布&quot; → &quot;下载&quot; <code>data.js</code> → 替换线上 <code>data.js</code> → 回到页面点&quot;标记为已发布&quot;。</li>
+</ol>
+<blockquote>
+<p>保存只写入<strong>本机草稿</strong>；发布后团队才能看到。</p>
+</blockquote>
+<h3 id="23-最小操作路径速查">2.3 最小操作路径速查</h3>
+<table>
+<thead>
+<tr>
+<th>我想……</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>看某部门的任务</td>
+<td>工具栏 → 责任部门 → 勾选部门</td>
+</tr>
+<tr>
+<td>看逾期/未启动任务</td>
+<td>工具栏 → 状态 → 勾选&quot;逾期&quot;或&quot;应启动未启动&quot;</td>
+</tr>
+<tr>
+<td>看某条任务的详情</td>
+<td>点击任务行/卡片</td>
+</tr>
+<tr>
+<td>改一条任务的进度</td>
+<td>登录 → 点任务 → 编辑任务 → 改进度 → 保存 → 发布</td>
+</tr>
+<tr>
+<td>批量更新进度</td>
+<td>改 Excel → 导入 Excel → 确认 → 发布</td>
+</tr>
+<tr>
+<td>把最新进度发给团队</td>
+<td>发布 → 下载 <code>data.js</code> → 替换线上文件 → 标记已发布</td>
+</tr>
+<tr>
+<td>导出汇报表</td>
+<td>登录 → 导出 Excel</td>
+</tr>
+<tr>
+<td>打印/导出 PDF</td>
+<td>工具栏右侧打印按钮 → 浏览器打印为 PDF</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="3-页面总览">3. 页面总览</h2>
+<p><img src="images/01-overview.png" alt="页面总览"></p>
+<p><em>图 1：桌面端页面总览。① 页头　② KPI　③ 工具栏　④ 甘特区</em></p>
+<h3 id="31-页头①">3.1 页头（①）</h3>
+<ul>
+<li>左侧：项目 logo + 项目标题。</li>
+<li>右侧：<code>数据更新于 YYYY-MM-DD HH:mm</code>，表示<strong>最近一次发布</strong>的时间，不是当前时间。</li>
+<li>管理员入口是隐藏的：<code>?admin=1</code> 或连续点击 logo/标题 5 次。普通成员看不到&quot;管理&quot;按钮。</li>
+</ul>
+<h3 id="32-kpi-指标②">3.2 KPI 指标（②）</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>含义</th>
+<th>计算方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>整体完成率</td>
+<td>全部任务的平均完成度</td>
+<td>所有任务进度相加 ÷ 任务数，四舍五入</td>
+</tr>
+<tr>
+<td>任务状态</td>
+<td>已完成 / 进行中 / 未开始</td>
+<td>按进度 100 / 1–99 / 0 分组</td>
+</tr>
+<tr>
+<td>风险提示</td>
+<td>逾期数 + 应启动未启动数</td>
+<td>见下方判定规则</td>
+</tr>
+<tr>
+<td>计划周期</td>
+<td>最早启动 → 最晚完成；时间进度</td>
+<td>已过天数 ÷ 计划总天数</td>
+</tr>
+</tbody></table>
+<p><strong>风险判定：</strong></p>
+<ul>
+<li><strong>逾期</strong>：今天 &gt; 完成时间，且进度 &lt; 100。</li>
+<li><strong>应启动未启动</strong>：进度 = 0，今天 &gt; 启动时间，且今天 ≤ 完成时间。</li>
+<li>已完成的任务即使完成时间已过，也不标逾期（系统没有记录实际完成日期）。</li>
+</ul>
+<blockquote>
+<p>KPI 始终按<strong>全部任务</strong>计算，不受筛选影响。筛选后的数量显示在工具栏&quot;筛选出 N 项&quot;。</p>
+</blockquote>
+<h3 id="33-工具栏③">3.3 工具栏（③）</h3>
+<p>从左到右：</p>
+<ul>
+<li><strong>搜索</strong>：任务名、责任部门、阶段、备注。</li>
+<li><strong>责任部门</strong>：多选，按部门筛选；支持搜索。</li>
+<li><strong>责任人</strong>：多选，按责任人筛选；支持搜索（v1.1 新增）。</li>
+<li><strong>状态</strong>：未开始、进行中、已完成、逾期、应启动未启动。</li>
+<li><strong>清除筛选</strong>：有筛选时出现。</li>
+<li><strong>阶段 / 序号</strong>：按阶段分组，或按序号平铺。</li>
+<li><strong>甘特 / 卡片</strong>：切换视图。</li>
+<li><strong>日 / 周 / 月</strong>：时间轴缩放，默认周。</li>
+<li><strong>打印</strong>：打印当前视图或导出 PDF。</li>
+</ul>
+<h3 id="34-甘特区④">3.4 甘特区（④）</h3>
+<ul>
+<li>左侧固定列：序号、工作任务（含起止日期）、责任部门、责任人、进度。</li>
+<li>右侧时间轴：月份、周/日刻度、任务条、今天线。</li>
+<li>每个阶段有一条<strong>阶段汇总条</strong>，显示该阶段的整体时间跨度。</li>
+<li>任务条的颜色代表阶段；填充比例代表进度。</li>
+<li>单日任务是<strong>菱形里程碑</strong>，不是一条短线。</li>
+<li>红色竖线是<strong>今天</strong>。</li>
+</ul>
+<h3 id="35-页脚">3.5 页脚</h3>
+<p>显示&quot;静态页面 · 数据由管理员发布后更新&quot;，以及最近一次发布说明。</p>
+<hr>
+<h2 id="4-查看进度团队成员">4. 查看进度（团队成员）</h2>
+<h3 id="41-先看整体再看局部">4.1 先看整体，再看局部</h3>
+<p>建议顺序：</p>
+<ol>
+<li><strong>整体完成率</strong>：项目大致走到哪一步。</li>
+<li><strong>风险提示</strong>：有没有逾期、应启动未启动。</li>
+<li><strong>阶段</strong>：哪个阶段拖后腿。</li>
+<li><strong>具体任务</strong>：点开详情看责任部门和备注。</li>
+</ol>
+<p>图 1 中：整体 13%，0 项逾期，7 项应启动未启动，时间已过 16/141 天（11%）。说明<strong>时间进度和完成进度大致同步</strong>，但有多条任务已过启动时间仍未开始。</p>
+<h3 id="42-读懂任务条">4.2 读懂任务条</h3>
+<table>
+<thead>
+<tr>
+<th>视觉</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>实心色条 + 勾</td>
+<td>已完成（100%）</td>
+</tr>
+<tr>
+<td>部分填充的色条</td>
+<td>进行中，填充比例 = 进度</td>
+</tr>
+<tr>
+<td>空心/浅色描边条</td>
+<td>未开始（0%）</td>
+</tr>
+<tr>
+<td>红色描边</td>
+<td>逾期</td>
+</tr>
+<tr>
+<td>琥珀色虚线描边</td>
+<td>应启动未启动</td>
+</tr>
+<tr>
+<td>菱形</td>
+<td>单日任务（启动=完成）</td>
+</tr>
+<tr>
+<td>红色竖线</td>
+<td>今天</td>
+</tr>
+<tr>
+<td>阶段行的浅色长条</td>
+<td>该阶段的最早启动–最晚完成</td>
+</tr>
+</tbody></table>
+<p>把鼠标放在任务条上会显示浮动提示；点击任务条或任务行会打开详情。</p>
+<h3 id="43-查看任务详情">4.3 查看任务详情</h3>
+<p><img src="images/03-detail.png" alt="任务详情"></p>
+<p><em>图 2：任务详情抽屉。① 进度　② 任务字段　③ 备注</em></p>
+<p>点击任务行/卡片后，右侧（手机端为底部）弹出详情：</p>
+<ul>
+<li>任务名称、状态、阶段；</li>
+<li>责任部门、责任人；</li>
+<li>启动时间、完成时间、计划工期；</li>
+<li>当前状态：剩余天数 / 逾期天数 / 应启动未启动；</li>
+<li>进度百分比；</li>
+<li>备注。</li>
+</ul>
+<p>管理员在详情底部会看到&quot;编辑任务&quot;按钮。</p>
+<h3 id="44-筛选任务">4.4 筛选任务</h3>
+<p><img src="images/02-filter.png" alt="筛选"></p>
+<p><em>图 3：责任部门筛选。① 筛选按钮　② 筛选面板</em></p>
+<ol>
+<li>点&quot;责任部门&quot;、&quot;责任人&quot;或&quot;状态&quot;；</li>
+<li>在部门/责任人面板顶部可输入关键词过滤；</li>
+<li>勾选一个或多个条件；面板保持打开，可连续勾选；</li>
+<li>点&quot;清除筛选&quot;恢复全部。</li>
+</ol>
+<p><strong>搜索</strong>：在搜索框输入任务名、部门、责任人、阶段或备注关键词，列表实时过滤。</p>
+<p><strong>分享筛选视图</strong>：筛选条件会写入网址。例如把带 <code>?dept=地调所</code> 的链接发给同事，对方打开后自动看到同一筛选。</p>
+<blockquote>
+<p>&quot;未开始&quot;筛选包含所有进度为 0 的任务；&quot;应启动未启动&quot;是其中&quot;已过启动时间&quot;的子集；&quot;逾期&quot;按完成时间判断。</p>
+</blockquote>
+<h3 id="45-缩放分组与折叠">4.5 缩放、分组与折叠</h3>
+<ul>
+<li><strong>日 / 周 / 月</strong>：切换时间尺度。日视图适合看短期细节，月视图适合汇报。</li>
+<li><strong>阶段 / 序号</strong>：<ul>
+<li>阶段：按项目管理流程、基础环境建设等分组；</li>
+<li>序号：按序号平铺，适合核对 Excel 顺序。</li>
+</ul>
+</li>
+<li><strong>折叠阶段</strong>：点阶段名左侧的箭头，只保留阶段汇总行。</li>
+</ul>
+<h3 id="46-打印-导出-pdf">4.6 打印 / 导出 PDF</h3>
+<ol>
+<li>点工具栏右侧的打印按钮；</li>
+<li>页面自动切换到&quot;月视图 + 展开全部阶段&quot;；</li>
+<li>在浏览器打印窗口选择&quot;另存为 PDF&quot;或直接打印；</li>
+<li>打印完成后页面自动恢复原状态。</li>
+</ol>
+<p>打印样式为 A3 横向，包含页头、KPI 和完整甘特，隐藏筛选/管理按钮。</p>
+<h3 id="47-手机端">4.7 手机端</h3>
+<p><img src="images/04-mobile-cards.png" alt="手机端卡片"></p>
+<p><em>图 4：手机端。① 页头　② KPI　③ 任务卡片</em></p>
+<ul>
+<li>手机默认显示<strong>卡片视图</strong>：每张卡显示任务名、部门、起止、进度、状态。</li>
+<li>点卡片打开底部详情。</li>
+<li>点工具栏&quot;甘特&quot;可切回时间轴；甘特需要左右滑动查看。</li>
+</ul>
+<p><img src="images/05-mobile-filter.png" alt="手机端筛选"></p>
+<p><em>图 5：手机端筛选面板</em></p>
+<p>筛选在手机端从底部弹出，勾选后点面板外区域关闭。</p>
+<p><img src="images/05b-mobile-gantt.png" alt="手机端甘特"></p>
+<p><em>图 6：手机端甘特视图</em></p>
+<blockquote>
+<p>手机端适合查看和简单改进度；<strong>导入/导出 Excel、发布更新建议在电脑上做</strong>。</p>
+</blockquote>
+<hr>
+<h2 id="5-管理员日常更新">5. 管理员：日常更新</h2>
+<h3 id="51-登录">5.1 登录</h3>
+<p><img src="images/06-login.png" alt="管理员登录"></p>
+<p><em>图 7：管理员登录。① 输入口令　② 登录</em></p>
+<p>两种进入方式：</p>
+<ul>
+<li>在网址后加 <code>?admin=1</code>，点右上角&quot;管理&quot;；</li>
+<li>连续点击页头 logo/标题 5 次。</li>
+</ul>
+<p>输入管理员口令。登录成功后：</p>
+<ul>
+<li>顶部出现&quot;退出管理&quot;；</li>
+<li>工具栏下方出现青绿色的<strong>管理工具条</strong>；</li>
+<li>当前浏览器进入管理模式。</li>
+</ul>
+<p><strong>会话</strong>：关闭标签页后失效；刷新页面仍保持登录。
+<strong>锁定</strong>：连续输错 5 次，锁定 30 秒。</p>
+<blockquote>
+<p>纯前端口令只能防止误操作，不能防止懂技术的人绕过。真正的控制点是&quot;谁有权替换线上 <code>data.js</code> / 谁持有 GitHub 发布令牌&quot;。</p>
+</blockquote>
+<h3 id="52-管理工具条">5.2 管理工具条</h3>
+<p><img src="images/07-admin-bar.png" alt="管理工具条"></p>
+<p><em>图 8：管理工具条。① 管理模式　② 新增任务　③ 导入 Excel　④ 发布　⑤ 设置</em></p>
+<table>
+<thead>
+<tr>
+<th>按钮</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>新增任务</td>
+<td>手工新增一条任务</td>
+</tr>
+<tr>
+<td>导入 Excel</td>
+<td>用 Excel 批量覆盖任务</td>
+</tr>
+<tr>
+<td>导出 Excel</td>
+<td>把当前数据导出为汇报用 Excel</td>
+</tr>
+<tr>
+<td>发布</td>
+<td>生成发布文件 / GitHub 一键发布</td>
+</tr>
+<tr>
+<td>设置</td>
+<td>阶段、项目标题（只读）、GitHub、口令</td>
+</tr>
+<tr>
+<td>退出</td>
+<td>退出管理模式，草稿保留</td>
+</tr>
+</tbody></table>
+<p>有未发布修改时，工具条会出现橙色圆点和&quot;有未发布修改&quot;。</p>
+<h3 id="53-修改任务进度最常用">5.3 修改任务进度（最常用）</h3>
+<p><img src="images/08-editor.png" alt="编辑任务"></p>
+<p><em>图 9：编辑任务（v1.1 界面）。① 进度　② 任务名　③ 责任部门/责任人　④ 保存</em></p>
+<p><strong>方式一：详情编辑</strong></p>
+<ol>
+<li>点击任务行/卡片；</li>
+<li>点&quot;编辑任务&quot;；</li>
+<li>在&quot;进度（%）&quot;里拖动滑杆、输入数字，或点 <code>0% / 25% / 50% / 75% / 100%</code>；</li>
+<li>点&quot;保存&quot;。</li>
+</ol>
+<p><strong>方式二：行内铅笔</strong></p>
+<p>电脑端把鼠标移到任务行，点行末的铅笔图标，直接打开编辑框。</p>
+<p><strong>进度语义：</strong></p>
+<table>
+<thead>
+<tr>
+<th>数值</th>
+<th>状态</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>未开始</td>
+<td>尚未启动</td>
+</tr>
+<tr>
+<td>1–99</td>
+<td>进行中</td>
+<td>填写估算完成度</td>
+</tr>
+<tr>
+<td>100</td>
+<td>已完成</td>
+<td>任务结束</td>
+</tr>
+</tbody></table>
+<p>保存后：</p>
+<ul>
+<li>数据进入<strong>本机草稿</strong>；</li>
+<li>页面立即显示新进度；</li>
+<li>团队还看不到，直到你&quot;发布&quot;。</li>
+</ul>
+<blockquote>
+<p><strong>v1.1 提示</strong>：责任部门、责任人已改为可搜索多选标签（支持表外值）；序号为自动分配且只读。详见 13.1 / 13.2。</p>
+</blockquote>
+<h3 id="54-新增任务">5.4 新增任务</h3>
+<ol>
+<li>管理工具条 → &quot;新增任务&quot;；</li>
+<li>序号由系统自动分配（只读）；填写任务名、责任部门、责任人、起止时间、进度、阶段、备注；</li>
+<li>点&quot;保存&quot;。</li>
+</ol>
+<p>建议：</p>
+<ul>
+<li>责任部门、责任人都可以多选；也可以输入表外值；</li>
+<li>完成时间不能早于启动时间；</li>
+<li>阶段从下拉框选择；没有合适的阶段可点&quot;新阶段&quot;。</li>
+</ul>
+<h3 id="55-编辑与删除">5.5 编辑与删除</h3>
+<ul>
+<li>编辑：所有字段都可改，保存后进入草稿。</li>
+<li>删除：打开编辑框 → 左下角&quot;删除&quot; → 确认。</li>
+<li>删除不可撤销；重要任务建议先导出 Excel 备份。</li>
+</ul>
+<h3 id="56-调整任务顺序">5.6 调整任务顺序</h3>
+<p>电脑端把鼠标移到任务行，行末会出现 <strong>上移 / 下移 / 编辑</strong> 三个小按钮。</p>
+<ul>
+<li>上移/下移会与相邻任务<strong>交换序号</strong>。</li>
+<li>在&quot;按序号平铺&quot;视图里，顺序变化最直观。</li>
+<li>在&quot;按阶段分组&quot;视图里，阶段内按<strong>启动时间</strong>排序，所以交换序号不一定改变行的位置；它主要影响同一天启动的任务，以及平铺视图。</li>
+<li><strong>v1.1 起序号只读</strong>，不能在编辑框手改；需要整体整理时用&quot;设置 → 数据 → 重新编号&quot;。</li>
+</ul>
+<h3 id="57-阶段管理">5.7 阶段管理</h3>
+<p><img src="images/11-settings.png" alt="设置-项目与阶段"></p>
+<p><em>图 10：管理设置。① 项目信息　② 阶段管理</em></p>
+<blockquote><p>截图中的&quot;项目标题&quot;输入框现为<strong>只读</strong>；标题请在 <code>title.js</code> 修改（见 8.1、13.8）。</p></blockquote>
+<ol>
+<li>管理工具条 → &quot;设置&quot;；</li>
+<li>在&quot;阶段管理&quot;里：<ul>
+<li>直接在输入框改阶段名：保存后会<strong>同步更新</strong>该阶段下所有任务；</li>
+<li>用 ↑ ↓ 调整阶段顺序；</li>
+<li>点&quot;新增阶段&quot;添加；</li>
+<li>点垃圾桶删除；如果该阶段下还有任务，会提示这些任务移入&quot;未分类&quot;。</li>
+</ul>
+</li>
+<li>点&quot;保存项目设置&quot;。</li>
+</ol>
+<blockquote>
+<p>阶段顺序决定甘特图的分组顺序。建议保持：项目管理流程 → 基础环境建设 → 主体功能建设 → 制度建设。</p>
+</blockquote>
+<h3 id="58-草稿保存了但团队没看到">5.8 草稿：保存了但团队没看到？</h3>
+<p>管理员的每次修改都会自动保存为本机草稿：</p>
+<ul>
+<li>刷新页面、关闭标签页后再登录，草稿还在；</li>
+<li>换电脑、换浏览器、清缓存后草稿不在；</li>
+<li>草稿基于旧版本时，工具条会提示&quot;线上数据已更新&quot;；</li>
+<li>发布成功后草稿自动清除；</li>
+<li>手动下载发布文件后，需要点&quot;标记为已发布&quot;才清除草稿；</li>
+<li>设置里可以&quot;丢弃草稿并恢复线上数据&quot;。</li>
+</ul>
+<blockquote>
+<p>草稿只存在当前浏览器。<strong>不要以为保存就等于发布。</strong></p>
+</blockquote>
+<hr>
+<h2 id="6-excel-导入与导出">6. Excel 导入与导出</h2>
+<h3 id="61-标准表格">6.1 标准表格</h3>
+<p>模板：<code>templates/任务分解表模板.xlsx</code></p>
+<table>
+<thead>
+<tr>
+<th>列</th>
+<th>是否必填</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>序号</td>
+<td>建议</td>
+<td>显示序号；缺失会自动编号</td>
+</tr>
+<tr>
+<td>工作任务</td>
+<td>必填</td>
+<td>任务名称</td>
+</tr>
+<tr>
+<td>责任部门</td>
+<td>建议</td>
+<td>多个部门用顿号、逗号或分号分隔</td>
+</tr>
+<tr>
+<td>责任人</td>
+<td>可选</td>
+<td>多个责任人用顿号、逗号或分号分隔；可留空</td>
+</tr>
+<tr>
+<td>启动时间</td>
+<td>必填</td>
+<td><code>YYYY-MM-DD</code>，也支持 <code>2026/11/6</code>、<code>2026年11月6日</code></td>
+</tr>
+<tr>
+<td>完成时间</td>
+<td>必填</td>
+<td>同上，不能早于启动时间</td>
+</tr>
+<tr>
+<td>进度（%）</td>
+<td>建议</td>
+<td>0 未开始；1–99 进行中；100 已完成</td>
+</tr>
+<tr>
+<td>阶段</td>
+<td>建议</td>
+<td>用于甘特分组</td>
+</tr>
+<tr>
+<td>备注</td>
+<td>可选</td>
+<td>显示在任务详情</td>
+</tr>
+</tbody></table>
+<p>说明：</p>
+<ul>
+<li><strong>责任人、备注列可以缺失</strong>；如果连&quot;阶段&quot;列也没有，会把&quot;备注&quot;当作阶段（兼容旧模板）。</li>
+<li>列顺序可以调整，系统按表头名称识别。</li>
+<li>标准模板为 9 列；旧版 7/8 列表格仍可导入，责任人会留空。</li>
+<li>只读取<strong>第一张工作表</strong>；表头上方可以有标题行。</li>
+</ul>
+<h3 id="62-导入-excel">6.2 导入 Excel</h3>
+<p><img src="images/09-import.png" alt="导入 Excel"></p>
+<p><em>图 11：导入 Excel。① 拖入/选择文件　② 统计　③ 预览　④ 确认导入</em></p>
+<ol>
+<li>管理工具条 → &quot;导入 Excel&quot;；</li>
+<li>把 <code>.xlsx / .xls / .csv</code> 拖进虚线框，或点击选择文件；</li>
+<li>检查：<ul>
+<li>有效任务数、阶段数、警告数；</li>
+<li>警告列表（例如序号为空、完成早于启动、进度超范围）；</li>
+<li>前 8 条预览；</li>
+</ul>
+</li>
+<li>确认无误后点&quot;覆盖并导入&quot;。</li>
+</ol>
+<p><strong>重要：</strong></p>
+<ul>
+<li>导入会<strong>覆盖当前全部任务</strong>（项目标题和发布信息不变）；</li>
+<li>有警告不会阻止导入，但请逐条核对；</li>
+<li>如果一条有效任务都没有，导入按钮不可用；</li>
+<li>导入后仍处于草稿状态，需要发布。</li>
+</ul>
+<h3 id="63-导出-excel">6.3 导出 Excel</h3>
+<ol>
+<li>管理工具条 → &quot;导出 Excel&quot;；</li>
+<li>浏览器下载 <code>任务分解表-YYYY-MM-DD.xlsx</code>；</li>
+<li>文件包含&quot;任务分解表&quot;和&quot;填写说明&quot;两张工作表。</li>
+</ol>
+<p>用途：</p>
+<ul>
+<li>正式汇报；</li>
+<li>导入前备份；</li>
+<li>把当前网页数据交给不使用网页的同事。</li>
+</ul>
+<blockquote>
+<p>导出是单向的：网页是数据源，Excel 只用于导入/导出，不建议两边同时改。</p>
+</blockquote>
+<h3 id="64-当前项目数据注意事项">6.4 当前项目数据注意事项</h3>
+<p>截至 2026-11-23，建议管理员核对：</p>
+<ol>
+<li><strong>源 Excel 当前是 8 列</strong>（序号、任务、部门、启动、完成、进度、阶段、备注），没有&quot;责任人&quot;列；导入后责任人会为空。网页模板为 9 列，可在 Excel 中补&quot;责任人&quot;列后重新导入。</li>
+<li><strong>网页当前数据</strong>来自旧版 7 列导入，序号为 <code>1–28、30</code>；源表已更新为 <code>28、29</code>。若要同步，用&quot;导入 Excel&quot;或&quot;重新编号&quot;整理，二选一（导入会覆盖网页改动）。</li>
+<li><strong>责任部门同时存在&quot;地灾防治所&quot;和&quot;地灾所&quot;</strong>；部门表 <code>departments.js</code> 里两个都保留，由你决定是否合并。</li>
+<li>当前 29 条任务，整体完成率 13%，0 项逾期，7 项应启动未启动；责任人全部为空。</li>
+<li>部门表 <code>departments.js</code> 已按当前 8 个部门初始化；责任人表 <code>persons.js</code> 目前为空，需要你手工填写姓名。</li>
+</ol>
+<h3 id="65-复用到其他项目">6.5 复用到其他项目</h3>
+<ol>
+<li>复制整个站点目录；</li>
+<li>用新项目 Excel 重新导入，或运行：
+<code>node tools/xlsx-to-data.js 新项目.xlsx data.js --title &quot;新项目&quot; --project-id &quot;new-project&quot;</code>
+<p>命令行的 <code>--title</code> 只写入 <code>data.js</code> 元数据；页面显示标题以 <code>title.js</code> 为准。</p></li>
+<li>修改 <code>title.js</code> 的项目标题；修改 <code>config.js</code> 的 <code>projectId</code>、<code>logo</code>，替换管理员口令哈希；</li>
+<li>替换 <code>assets/logo.jpg</code>；</li>
+<li>部署到新地址。</li>
+</ol>
+<hr>
+<h2 id="7-发布更新">7. 发布更新</h2>
+<h3 id="71-为什么必须发布">7.1 为什么必须发布</h3>
+<p>页面读取的是线上 <code>data.js</code>。管理员在浏览器里改的是<strong>本机草稿</strong>，不发布的话：</p>
+<ul>
+<li>管理员自己能看到；</li>
+<li>团队看不到；</li>
+<li>换浏览器/设备也看不到。</li>
+</ul>
+<p>发布 = 把草稿变成新的 <code>data.js</code>，并替换线上文件。</p>
+<h3 id="72-手动发布推荐先用这种方式">7.2 手动发布（推荐先用这种方式）</h3>
+<p><img src="images/10-publish.png" alt="发布更新"></p>
+<p><em>图 12：发布更新。① 发布说明　② 下载　③ 复制内容　④ 标记为已发布</em></p>
+<ol>
+<li>管理工具条 → &quot;发布&quot;；</li>
+<li>填写&quot;发布说明&quot;（可选，但建议写，例如&quot;完成可研评审，更新 3 条任务&quot;）；</li>
+<li>点&quot;下载&quot;，得到 <code>data.js</code>；</li>
+<li>替换线上文件：<ul>
+<li><strong>GitHub Pages</strong>：仓库 → 根目录 <code>data.js</code> → 编辑/上传 → Commit；</li>
+<li><strong>云服务器</strong>：用 SFTP/控制台上传覆盖；</li>
+<li><strong>共享盘/同步盘</strong>：直接替换同名文件；</li>
+</ul>
+</li>
+<li>回到页面，点 <strong>&quot;标记为已发布&quot;</strong>，清除本机草稿；</li>
+<li>让团队刷新页面（GitHub Pages 可能需要 1–2 分钟）。</li>
+</ol>
+<blockquote>
+<p>下载后先不要急着点&quot;标记为已发布&quot;——确认线上文件已经替换成功再点。否则本地草稿被清除，但线上还是旧数据。</p>
+</blockquote>
+<h3 id="73-github-一键发布">7.3 GitHub 一键发布</h3>
+<p>适合已经部署在 GitHub Pages、并且愿意配置令牌的场景。</p>
+<p><strong>一次性配置：</strong></p>
+<ol>
+<li>打开 <a href="https://github.com/settings/tokens?type=beta">https://github.com/settings/tokens?type=beta</a>；</li>
+<li>创建 fine-grained token：<ul>
+<li>Repository access：只选 <code>schedule-monitor</code>；</li>
+<li>Permissions → Contents：<code>Read and write</code>；</li>
+<li>建议 90 天有效期；</li>
+</ul>
+</li>
+<li>管理端 → 设置 → GitHub 一键发布：<ul>
+<li>Owner：GitHub 用户名</li>
+<li>Repository：<code>customSchedule</code></li>
+<li>Branch：<code>main</code></li>
+<li>File path：<code>data.js</code></li>
+<li>Token：粘贴</li>
+<li>保存发布设置。</li>
+</ul>
+</li>
+</ol>
+<p><strong>每次发布：</strong></p>
+<ol>
+<li>管理工具条 → 发布；</li>
+<li>填写发布说明；</li>
+<li>点&quot;一键发布&quot;；</li>
+<li>看到&quot;已发布到 GitHub&quot;后，约 1 分钟 Pages 更新。</li>
+</ol>
+<p><strong>令牌安全：</strong></p>
+<ul>
+<li>只保存在当前浏览器 localStorage；</li>
+<li>不会写入 <code>data.js</code>，不会进入仓库；</li>
+<li>换电脑/清缓存后需要重新填写；</li>
+<li>不要截图或发到群里。</li>
+</ul>
+<h3 id="74-发布后检查清单">7.4 发布后检查清单</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 页面&quot;数据更新于&quot;时间已变化；</li>
+<li><input disabled="" type="checkbox"> 版本号 +1；</li>
+<li><input disabled="" type="checkbox"> 关键任务的进度/日期正确；</li>
+<li><input disabled="" type="checkbox"> 团队任意一人刷新后能看到；</li>
+<li><input disabled="" type="checkbox"> 把本次 <code>data.js</code> 按日期备份（例如 <code>backup/data-2026-11-21.js</code>）。</li>
+</ul>
+<h3 id="75-版本与历史">7.5 版本与历史</h3>
+<ul>
+<li>每次发布会更新 <code>meta.updatedAt</code> 和 <code>meta.version</code>；</li>
+<li>页面不自动保留历史版本；</li>
+<li>需要回滚时，用之前备份的 <code>data.js</code> 覆盖线上文件，然后刷新。</li>
+</ul>
+<hr>
+<h2 id="8-管理员设置">8. 管理员设置</h2>
+<h3 id="81-项目信息">8.1 项目信息</h3>
+<p>项目标题统一由根目录 <code>title.js</code> 管理，页面设置中只读：</p>
+<ol>
+<li>编辑 <code>title.js</code> 里的 <code>window.PROJECT_TITLE = '...'</code>；</li>
+<li>刷新页面即可看到新标题；</li>
+<li>推送到线上后团队生效。</li>
+</ol>
+<p>标题会同步用于页头、浏览器标签和发布后的 <code>data.js</code>；不需要在管理设置里修改。</p>
+<h3 id="82-阶段管理">8.2 阶段管理</h3>
+<p>见 5.7。重命名会同步任务；删除有任务的阶段会提示迁移到&quot;未分类&quot;。</p>
+<h3 id="83-github-发布设置">8.3 GitHub 发布设置</h3>
+<p><img src="images/11b-settings-security.png" alt="设置-GitHub 与口令"></p>
+<p><em>图 13：设置中的 GitHub 与口令。③ GitHub 一键发布　④ 修改管理员口令</em></p>
+<p>见 7.3。修改后点&quot;保存发布设置&quot;。</p>
+<h3 id="84-修改管理员口令">8.4 修改管理员口令</h3>
+<ol>
+<li>设置 → 修改管理员口令；</li>
+<li>输入新口令（至少 8 位）并确认；</li>
+<li>点&quot;生成哈希&quot;；</li>
+<li>复制生成的 SHA-256 哈希；</li>
+<li>打开 <code>config.js</code>，把 <code>passwordHash</code> 替换为新哈希；</li>
+<li>重新发布 <code>config.js</code>（推送到仓库/上传服务器）；</li>
+<li>退出管理，用新口令重新登录验证。</li>
+</ol>
+<blockquote>
+<p><strong>建议</strong>：正式公开部署前更换一次口令。当前页面是纯静态的，口令哈希会随 <code>config.js</code> 公开；它只能防误操作，不能当真正的安全认证。</p>
+</blockquote>
+<h3 id="85-丢弃草稿-恢复线上数据">8.5 丢弃草稿 / 恢复线上数据</h3>
+<p>设置 → 数据 → &quot;丢弃草稿并恢复线上数据&quot;。</p>
+<p>适用场景：</p>
+<ul>
+<li>草稿改乱了；</li>
+<li>线上数据已经被别人更新；</li>
+<li>想重新从线上版本开始。</li>
+</ul>
+<hr>
+<h3 id="86-部门表责任人表与重新编号">8.6 部门表、责任人表与重新编号</h3>
+<ul>
+<li>设置 → <strong>部门表（departments.js）</strong> / <strong>责任人表（persons.js）</strong>：<ul>
+<li>只读展示表内值、表外值和使用次数；</li>
+<li>&quot;复制完整列表&quot; / &quot;复制表外值&quot;生成 JS 数组，粘贴回文件；</li>
+<li>页面不会自动写文件。</li>
+</ul>
+</li>
+<li>设置 → 数据 → <strong>&quot;重新编号（预览）&quot;</strong>：<ul>
+<li>按当前序号升序重编为 <code>1..N</code>；</li>
+<li>先预览，再确认；不会自动执行。</li>
+</ul>
+</li>
+<li>详细步骤见 13.3 / 13.5。</li>
+</ul>
+<h2 id="9-常见问题-faq">9. 常见问题 FAQ</h2>
+<p><strong>Q1：我改了进度，团队说看不到？</strong>
+A：保存只进入本机草稿。需要&quot;发布&quot;并替换线上 <code>data.js</code>，团队刷新后才能看到。</p>
+<p><strong>Q2：刷新后我的修改没了？</strong>
+A：草稿保存在当前浏览器。换浏览器、换设备、清缓存会丢失。请及时发布。</p>
+<p><strong>Q3：看不到&quot;管理&quot;入口？</strong>
+A：在网址后加 <code>?admin=1</code>；或连续点击页头 logo/标题 5 次。普通视图默认隐藏入口。</p>
+<p><strong>Q4：忘记管理员口令怎么办？</strong>
+A：需要能修改 <code>config.js</code> 的人操作：</p>
+<ol>
+<li>用任意 SHA-256 工具生成新口令哈希，例如终端：
+<code>printf &#39;%s&#39; &#39;新口令&#39; | shasum -a 256</code></li>
+<li>把 <code>config.js</code> 的 <code>passwordHash</code> 替换成结果；</li>
+<li>重新发布 <code>config.js</code>。
+（页面内的哈希生成器需要先登录，忘密码时用不了。）</li>
+</ol>
+<p><strong>Q5：导入 Excel 没反应/提示没有有效任务？</strong>
+A：检查：</p>
+<ul>
+<li>是否第一张工作表；</li>
+<li>表头是否有&quot;工作任务&quot;&quot;启动时间&quot;&quot;完成时间&quot;；</li>
+<li>日期是否能识别；</li>
+<li>是否所有行都缺任务名。
+导入面板会列出具体警告和行号。</li>
+</ul>
+<p><strong>Q6：为什么任务显示&quot;逾期&quot;或&quot;应启动未启动&quot;？</strong>
+A：</p>
+<ul>
+<li>逾期：今天已超过完成时间，且进度 &lt; 100；</li>
+<li>应启动未启动：进度仍为 0，已超过启动时间，但还没到完成时间。
+完成时间已过但进度 100，不会标逾期。</li>
+</ul>
+<p><strong>Q7：为什么我上移/下移任务，行没有动？</strong>
+A：按阶段分组时，阶段内按启动时间排序；序号交换主要影响同一天启动的任务和&quot;按序号平铺&quot;视图。要看顺序变化，切到&quot;序号&quot;视图。</p>
+<p><strong>Q8：GitHub 发布后页面没更新？</strong>
+A：Pages 有 1–2 分钟缓存。等待后强制刷新（Cmd/Ctrl+Shift+R）。如果还没更新，检查：</p>
+<ul>
+<li>仓库里 <code>data.js</code> 是否真的变了；</li>
+<li>发布是否成功；</li>
+<li>Branch/Path 是否填对。</li>
+</ul>
+<p><strong>Q9：可以多人同时当管理员吗？</strong>
+A：系统只有一个口令，技术上多人可以登录，但草稿是<strong>各自浏览器本地的</strong>，容易互相覆盖。建议只指定一名管理员；确需多人时，约定&quot;改前先刷新、改后立即发布&quot;。</p>
+<p><strong>Q10：口令安全吗？</strong>
+A：纯前端口令只能防误操作，不能防技术绕过。真正的控制点是发布权限（谁掌握线上文件/GitHub token）。不要把口令发到群里；公开部署前更换。</p>
+<p><strong>Q11：手机上能改进度吗？</strong>
+A：可以：点卡片 → 编辑任务 → 改进度 → 保存。但导入/导出 Excel、发布建议在电脑上完成。</p>
+<p><strong>Q12：页面能公网访问，数据会不会被搜到？</strong>
+A：页面有 <code>noindex</code> 和 <code>robots.txt</code>，但公网静态站点没有真正的访问控制；拿到链接的人都能看。不要主动传播链接；敏感项目建议部署到内网。</p>
+<p><strong>Q13：怎么恢复上周的版本？</strong>
+A：系统不自动保留历史。管理员应定期把下载的 <code>data.js</code> 按日期备份；回滚时用备份覆盖线上文件。</p>
+<p><strong>Q14：Excel 和网页以谁为准？</strong>
+A：<strong>网页为唯一数据源</strong>。Excel 只用于初始导入、批量更新和导出汇报；不要两边同时改。</p>
+<hr>
+<p><strong>Q15：新增任务为什么拿到 29，而不是最大序号+1？</strong>
+A：v1.1 采用&quot;最小空号&quot;策略，会复用删除或历史遗留的空号。想让整表连续，用&quot;设置 → 数据 → 重新编号&quot;。</p>
+<p><strong>Q16：部门/责任人后面有黄色&quot;表外&quot;是什么意思？</strong>
+A：这个值不在 <code>departments.js</code> / <code>persons.js</code> 的候选表里；它仍会保存在任务和 <code>data.js</code> 中。要让它成为正式候选，把值补进对应文件并推送。</p>
+<p><strong>Q17：怎么新增一个部门或责任人？</strong>
+A：直接编辑 <code>departments.js</code> / <code>persons.js</code> 里的数组，提交/推送后刷新页面；设置里的只读表可以复制当前列表/表外值，方便粘贴。</p>
+<p><strong>Q18：责任人可以填多个吗？</strong>
+A：可以；在任务编辑器里多选，Excel 里用顿号分隔。甘特列显示 <code>张三、李四</code>。</p>
+<h2 id="10-培训建议讲师用">10. 培训建议（讲师用）</h2>
+<h3 id="101-培训目标">10.1 培训目标</h3>
+<p>培训结束后，学员应能：</p>
+<ul>
+<li>独立打开看板，读懂 KPI 和甘特条；</li>
+<li>用部门/状态筛选找到自己的任务；</li>
+<li>管理员能独立完成&quot;改进度 → 保存 → 发布 → 验证&quot;闭环；</li>
+<li>知道草稿和线上数据的区别；</li>
+<li>知道哪些数据问题需要回到 Excel 修正。</li>
+</ul>
+<h3 id="102-30-分钟议程">10.2 30 分钟议程</h3>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>内容</th>
+<th>方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0–5 分钟</td>
+<td>背景、角色、看板地址</td>
+<td>讲解</td>
+</tr>
+<tr>
+<td>5–15 分钟</td>
+<td>团队成员视角：KPI、甘特、筛选、详情</td>
+<td>演示 + 学员操作</td>
+</tr>
+<tr>
+<td>15–25 分钟</td>
+<td>管理员视角：登录、改进度、草稿、发布</td>
+<td>演示 + 学员操作</td>
+</tr>
+<tr>
+<td>25–28 分钟</td>
+<td>Excel 导入/导出、数据规范</td>
+<td>讲解</td>
+</tr>
+<tr>
+<td>28–30 分钟</td>
+<td>常见问题、答疑</td>
+<td>讨论</td>
+</tr>
+</tbody></table>
+<h3 id="103-演示脚本可照着点">10.3 演示脚本（可照着点）</h3>
+<p><strong>团队成员部分：</strong></p>
+<ol>
+<li>打开看板，指出页头更新时间。</li>
+<li>指出整体完成率、风险提示。</li>
+<li>点&quot;责任部门&quot;→ 勾选&quot;地调所&quot;→ 指出筛选结果数量。</li>
+<li>点击&quot;可行性研究报告编制与评审&quot;→ 展示详情。</li>
+<li>切换&quot;日 / 周 / 月&quot;。</li>
+<li>点打印按钮 → 展示打印预览（不实际打印）。</li>
+</ol>
+<p><strong>管理员部分：</strong></p>
+<ol>
+<li>网址加 <code>?admin=1</code> → 点&quot;管理&quot; → 输入口令。</li>
+<li>找到&quot;基地建设上会&quot;→ 编辑 → 指出序号自动且只读；在责任部门/责任人里搜索并选择 → 进度从 0 改成 30 → 保存。</li>
+<li>指出工具条&quot;有未发布修改&quot;。</li>
+<li>点&quot;发布&quot;→ 填写说明 → 下载 <code>data.js</code>（演示下载，不实际替换）。</li>
+<li>点&quot;标记为已发布&quot;（演示清除草稿）。</li>
+<li>演示&quot;设置 → 阶段管理&quot;的改名/排序；再展示部门表/责任人表（只读）和重新编号预览（不确认）。</li>
+<li>演示&quot;导入 Excel&quot;的 9 列预览、表外责任人提示（不点确认）。</li>
+</ol>
+<blockquote>
+<p>培训时不要使用真实管理员口令投屏；建议临时改一个演示口令，培训后换回。</p>
+</blockquote>
+<h3 id="104-学员练习">10.4 学员练习</h3>
+<p><strong>练习 A（团队成员）：</strong></p>
+<ol>
+<li>筛选&quot;地调所&quot;的任务，数一数有几条；</li>
+<li>找出所有&quot;应启动未启动&quot;的任务；</li>
+<li>打开任意任务详情，说出它的责任部门和计划工期；</li>
+<li>把当前视图打印/导出为 PDF。</li>
+</ol>
+<p><strong>练习 B（管理员，在测试环境）：</strong></p>
+<ol>
+<li>把某条任务进度改为 50%；</li>
+<li>新增一条&quot;培训测试任务&quot;，给部门/责任人各选一个（或输入表外值），保存；</li>
+<li>指出序号自动生成且只读；打开&quot;重新编号&quot;预览（不确认）；</li>
+<li>发布到测试目录，让另一位同事刷新验证；</li>
+<li>删除测试任务，再次发布。</li>
+</ol>
+<h3 id="105-培训前检查清单">10.5 培训前检查清单</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 看板地址可访问（电脑 + 手机各试一次）；</li>
+<li><input disabled="" type="checkbox"> 管理员账号可登录；</li>
+<li><input disabled="" type="checkbox"> 准备一份测试数据/测试目录，避免培训时污染正式数据；</li>
+<li><input disabled="" type="checkbox"> 投屏分辨率足够看清甘特图；</li>
+<li><input disabled="" type="checkbox"> 准备一份当前 <code>data.js</code> 备份；</li>
+<li><input disabled="" type="checkbox"> 如果演示 GitHub 一键发布，提前配置测试 token；</li>
+<li><input disabled="" type="checkbox"> 提醒学员不要在现场修改正式进度。</li>
+</ul>
+<h3 id="106-培训后跟进">10.6 培训后跟进</h3>
+<ul>
+<li>把本手册和看板地址发给团队；</li>
+<li>指定唯一管理员，并在群里公布&quot;每周五更新、发布&quot;的节奏；</li>
+<li>一周后收集问题，更新 FAQ；</li>
+<li>一个月后检查：是否还在用旧 Excel、是否有未发布草稿、口令/token 是否到期。</li>
+</ul>
+<hr>
+<h2 id="11-管理员日常检查清单">11. 管理员日常检查清单</h2>
+<h3 id="每日-每次更新">每日 / 每次更新</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 打开看板，确认&quot;数据更新于&quot;是最近时间；</li>
+<li><input disabled="" type="checkbox"> 检查&quot;逾期&quot;和&quot;应启动未启动&quot;；</li>
+<li><input disabled="" type="checkbox"> 更新自己负责的任务进度；</li>
+<li><input disabled="" type="checkbox"> 保存后立即发布；</li>
+<li><input disabled="" type="checkbox"> 让一位团队成员刷新确认。</li>
+</ul>
+<h3 id="每周">每周</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 核对各阶段完成率是否与实际情况一致；</li>
+<li><input disabled="" type="checkbox"> 检查责任部门名称是否统一；</li>
+<li><input disabled="" type="checkbox"> 备份当前 <code>data.js</code>；</li>
+<li><input disabled="" type="checkbox"> 清理已完成但不再需要展示的任务（可选）。</li>
+</ul>
+<h3 id="每月">每月</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 检查管理员口令是否需要更换；</li>
+<li><input disabled="" type="checkbox"> 检查 GitHub token 有效期；</li>
+<li><input disabled="" type="checkbox"> 回顾阶段划分是否仍适用；</li>
+<li><input disabled="" type="checkbox"> 导出一次 Excel 作为月度归档。</li>
+</ul>
+<hr>
+<h2 id="12-附录">12. 附录</h2>
+<h3 id="121-数据填写速查">12.1 数据填写速查</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>规范</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>日期</td>
+<td><code>YYYY-MM-DD</code>；也支持 <code>2026/11/6</code>、<code>2026年11月6日</code></td>
+</tr>
+<tr>
+<td>进度</td>
+<td>0–100 整数；0 未开始，1–99 进行中，100 已完成</td>
+</tr>
+<tr>
+<td>责任部门</td>
+<td>多个部门用 <code>、</code> <code>，</code> <code>,</code> <code>；</code> <code>;</code> 分隔</td>
+</tr>
+<tr>
+<td>责任人</td>
+<td>多个姓名用 <code>、</code> <code>，</code> <code>,</code> <code>；</code> <code>;</code> 分隔；可留空</td>
+</tr>
+<tr>
+<td>阶段</td>
+<td>建议固定 4 类：项目管理流程、基础环境建设、主体功能建设、制度建设</td>
+</tr>
+<tr>
+<td>序号</td>
+<td>新增自动分配；编辑时只读；可用&quot;重新编号&quot;整理</td>
+</tr>
+<tr>
+<td>备注</td>
+<td>可选；显示在任务详情</td>
+</tr>
+</tbody></table>
+<h3 id="122-浏览器与地址">12.2 浏览器与地址</h3>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>本地预览</td>
+<td>双击 <code>index.html</code>，或 <code>http://127.0.0.1:8765/</code></td>
+</tr>
+<tr>
+<td>管理员入口</td>
+<td>看板地址后加 <code>?admin=1</code></td>
+</tr>
+<tr>
+<td>带筛选分享</td>
+<td>例如 <code>?dept=地调所&amp;status=late</code>、<code>?owner=张三</code></td>
+</tr>
+<tr>
+<td>GitHub Pages</td>
+<td><code>https://&lt;用户名&gt;.github.io/customSchedule/</code></td>
+</tr>
+</tbody></table>
+<h3 id="123-术语表">12.3 术语表</h3>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>草稿</td>
+<td>管理员本机浏览器里的未发布修改</td>
+</tr>
+<tr>
+<td>发布</td>
+<td>生成新的 <code>data.js</code> 并替换线上文件</td>
+</tr>
+<tr>
+<td>阶段</td>
+<td>任务分组，例如&quot;项目管理流程&quot;</td>
+</tr>
+<tr>
+<td>里程碑</td>
+<td>启动时间 = 完成时间的单日任务</td>
+</tr>
+<tr>
+<td>逾期</td>
+<td>超过完成时间且未完成</td>
+</tr>
+<tr>
+<td>应启动未启动</td>
+<td>已过启动时间但进度仍为 0，且未到完成时间</td>
+</tr>
+<tr>
+<td>时间进度</td>
+<td>已过天数 ÷ 计划总天数</td>
+</tr>
+</tbody></table>
+<h3 id="124-维护者文件地图">12.4 维护者文件地图</h3>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>index.html</code></td>
+<td>页面入口</td>
+</tr>
+<tr>
+<td><code>styles.css</code></td>
+<td>视觉样式、响应式、打印</td>
+</tr>
+<tr>
+<td><code>title.js</code></td>
+<td>项目标题（唯一来源，换项目只改这里）</td>
+</tr>
+<tr>
+<td><code>config.js</code></td>
+<td>项目 ID、logo、管理员哈希、GitHub 默认值；标题仅作旧版回退</td>
+</tr>
+<tr>
+<td><code>data.js</code></td>
+<td>当前发布的任务数据</td>
+</tr>
+<tr>
+<td><code>departments.js</code></td>
+<td>部门候选表（只读，手工维护）</td>
+</tr>
+<tr>
+<td><code>persons.js</code></td>
+<td>责任人候选表（只读，手工维护）</td>
+</tr>
+<tr>
+<td><code>js/</code></td>
+<td>应用逻辑（工具、甘特、渲染、选择器、管理、发布、启动）</td>
+</tr>
+<tr>
+<td><code>shared/parse.js</code></td>
+<td>Excel 解析（浏览器/Node 共用）</td>
+</tr>
+<tr>
+<td><code>tools/</code></td>
+<td>Excel 转 data.js、模板生成、解析测试</td>
+</tr>
+<tr>
+<td><code>templates/</code></td>
+<td>空白 Excel 模板</td>
+</tr>
+<tr>
+<td><code>README.md</code> / <code>DEPLOY.md</code></td>
+<td>使用与部署说明</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="13-v11-新版操作速查">13. 新版操作速查（v1.1 / v1.2）</h2>
+<blockquote>
+<p>本章覆盖 2026-11-23 的新功能（含 v1.2 标题文件化）；前文旧的&quot;8 列 / 手动序号 / 纯文本部门 / 页面内改标题&quot;描述以本章为准。</p>
+</blockquote>
+<h3 id="131-新增任务序号自动">13.1 新增任务：序号自动</h3>
+<ul>
+<li>点&quot;新增任务&quot;后，<strong>序号由系统自动分配</strong>，取当前最小空号；例如现有 <code>1–28、30</code> 时，新任务会拿到 <strong>29</strong>。</li>
+<li>序号输入框是<strong>只读</strong>的，不需要手填。</li>
+<li>删除任务后空号会保留；下一条新任务可以复用该空号。</li>
+<li>要让整表连续（例如把 <code>1–28、30</code> 变成 <code>1–29</code>）：<ol>
+<li>设置 → 数据 → <strong>&quot;重新编号（预览）&quot;</strong>；</li>
+<li>查看&quot;旧号 → 新号&quot;预览；</li>
+<li>点&quot;确认重新编号&quot;；只有确认后才会写入草稿。</li>
+</ol>
+</li>
+</ul>
+<h3 id="132-部门-责任人选择器">13.2 部门 / 责任人选择器</h3>
+<p>任务编辑框里的&quot;责任部门&quot;和&quot;责任人&quot;都改成了<strong>可搜索多选标签</strong>：</p>
+<ol>
+<li>点击字段，弹出选择面板（电脑下拉，手机底部面板）；</li>
+<li>输入关键词过滤；点击选项加入/取消；</li>
+<li>支持一次粘贴多个值（用 <code>、，,；;</code> 分隔）；</li>
+<li>输入不存在的部门/姓名，按回车可&quot;使用 XXX（不在表）&quot;；</li>
+<li>已选值显示为标签，点标签上的 × 移除；</li>
+<li>点&quot;完成&quot;关闭面板。</li>
+</ol>
+<ul>
+<li>责任部门候选来自 <code>departments.js</code> + 任务里已用到的表外部门；</li>
+<li>责任人候选来自 <code>persons.js</code> + 任务里已用到的表外姓名；</li>
+<li>候选人旁的数字是当前任务数；黄色&quot;表外&quot;表示不在候选文件里。</li>
+</ul>
+<h3 id="133-部门表-责任人表怎么维护">13.3 部门表 / 责任人表怎么维护</h3>
+<ul>
+<li>文件位置：站点根目录的 <code>departments.js</code>、<code>persons.js</code>；</li>
+<li>页面<strong>只读</strong>，不会自动写文件；</li>
+<li>新增/改名/删除：直接编辑文件里的数组，提交/推送后刷新页面；</li>
+<li>设置 → 部门表/责任人表 可以只读查看表内/表外值和使用次数；</li>
+<li>点&quot;复制完整列表&quot;或&quot;复制表外值&quot;，把生成的 JS 数组粘贴回文件；</li>
+<li>表外值会随任务保存在 <code>data.js</code>，一键发布会带上，但不会自动进入候选文件。</li>
+</ul>
+<h3 id="134-责任人显示与筛选">13.4 责任人显示与筛选</h3>
+<ul>
+<li>甘特左侧新增独立 <strong>&quot;责任人&quot;</strong> 列，多个责任人显示为 <code>张三、李四</code>，超长省略，悬停看全；</li>
+<li>卡片、详情、打印、Excel 都包含责任人；</li>
+<li>顶部筛选栏新增 <strong>&quot;责任人&quot;</strong>，支持搜索/多选，只列出当前任务实际用到的责任人；</li>
+<li>筛选条件写入 URL，例如 <code>?owner=张三</code>；</li>
+<li>责任人不是必填项，留空显示&quot;未填写&quot;。</li>
+</ul>
+<h3 id="135-重新编号">13.5 重新编号</h3>
+<ul>
+<li>入口：设置 → 数据 → &quot;重新编号（预览）&quot;；</li>
+<li>按当前序号升序，把全部任务重编为 <code>1..N</code>；</li>
+<li>筛选中的隐藏任务也会被重编；</li>
+<li>预览会标出会变化的行；</li>
+<li><strong>不会自动执行</strong>；点&quot;确认重新编号&quot;后才写入草稿；</li>
+<li>只改显示序号，不改任务 ID；</li>
+<li>当前数据不会自动重编，需要你手动点一次。</li>
+</ul>
+<h3 id="136-excel-9-列">13.6 Excel 9 列</h3>
+<p>新模板为：</p>
+<pre><code>序号 | 工作任务 | 责任部门 | 责任人 | 启动时间 | 完成时间 | 进度（%） | 阶段 | 备注
+</code></pre>
+<ul>
+<li>责任人列可缺失；多个责任人用顿号分隔；</li>
+<li>导入时表外的部门/责任人会提示，但不会阻断；</li>
+<li>导出会自动带上责任人列。</li>
+</ul>
+<h3 id="137-发布注意">13.7 发布注意</h3>
+<ul>
+<li>一键发布仍然<strong>只提交 <code>data.js</code></strong>；</li>
+<li><code>title.js</code> / <code>departments.js</code> / <code>persons.js</code> 修改后需要单独提交/推送；</li>
+<li>表外值在 <code>data.js</code> 里，一键发布会带上，但要成为正式候选仍需补进文件；</li>
+<li>口令哈希在 <code>config.js</code>，也不在一键发布范围内。</li>
+</ul>
+<h3 id="138-项目标题">13.8 项目标题</h3>
+<ul>
+<li>标题唯一来源：根目录 <code>title.js</code> 的 <code>window.PROJECT_TITLE</code>；</li>
+<li>修改后刷新页面生效，推送后团队生效；文件按时间戳加载，通常无需强刷；</li>
+<li>页头、浏览器标签、管理设置、发布后的 <code>data.js</code> 都使用该标题；</li>
+<li>管理设置里的标题为只读，不需要在页面里改。</li>
+</ul>
+<hr>
+<blockquote>
+<p><strong>培训结束前，请记住三句话：</strong></p>
+<ol>
+<li>团队成员看网页，不看 Excel 附件。</li>
+<li>管理员改完必须<strong>发布</strong>，团队才能看到。</li>
+<li>草稿在本机，发布才共享。</li>
+</ol>
+</blockquote>
+
+  </section>
+</div>
+</body>
+</html>

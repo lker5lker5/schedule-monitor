@@ -1,11 +1,11 @@
-/* customSchedule data — generated 2026-11-26T12:12:50.171Z */
+/* customSchedule data — generated 2026-11-26T12:56:50.592Z */
 window.PROJECT_DATA = {
   "meta": {
     "projectId": "deep-earth-ai-pilot",
     "title": "深地科学与人工智能中试基地建设任务分解表",
     "logo": "assets/logo.jpg",
-    "updatedAt": "2026-11-26T12:12:50.171Z",
-    "version": 2,
+    "updatedAt": "2026-11-26T12:56:50.592Z",
+    "version": 3,
     "publishNote": "从 Excel 初始导入",
     "phaseOrder": [
       "项目管理流程",
@@ -363,7 +363,7 @@ window.PROJECT_DATA = {
       "owners": [],
       "start": "2026-11-06",
       "end": "2027-03-05",
-      "progress": 0,
+      "progress": 15,
       "phase": "主体功能建设",
       "note": ""
     },
@@ -378,7 +378,7 @@ window.PROJECT_DATA = {
       "owners": [],
       "start": "2026-11-06",
       "end": "2027-03-05",
-      "progress": 60,
+      "progress": 40,
       "phase": "主体功能建设",
       "note": ""
     },
@@ -393,7 +393,7 @@ window.PROJECT_DATA = {
       "owners": [],
       "start": "2026-11-06",
       "end": "2027-03-05",
-      "progress": 0,
+      "progress": 20,
       "phase": "主体功能建设",
       "note": ""
     },
@@ -407,7 +407,7 @@ window.PROJECT_DATA = {
       "owners": [],
       "start": "2026-11-06",
       "end": "2027-03-12",
-      "progress": 60,
+      "progress": 25,
       "phase": "主体功能建设",
       "note": ""
     },
